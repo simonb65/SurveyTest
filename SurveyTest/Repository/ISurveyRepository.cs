@@ -6,5 +6,6 @@ namespace SurveyTest.Models
     public interface ISurveyRepository
     {
         IList<SurveyModel> ListSurveys();
+        SurveyModel GetSurvey(int surveyId);
     }
 }

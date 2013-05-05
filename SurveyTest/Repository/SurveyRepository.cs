@@ -1,13 +1,14 @@
-﻿using System;
+﻿using SurveyTest.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace SurveyTest.Models
 {
-    public class QuestionList
+    public class InMemorySurveyRepository : SurveyTest.Models.ISurveyRepository
     {
-        public static SurveyQuestionDef[] Questions = new SurveyQuestionDef[]
+        private static SurveyQuestionDef[] _questions = new SurveyQuestionDef[]
         {
             new HeaderQuestionDef(0, "Personal Details"),
             new BloodPressureQuestionDef(100),
@@ -52,22 +53,56 @@ namespace SurveyTest.Models
                 SingleLine =true
             }
         };
-    }
+    
 
-    public class SurveyRepository : SurveyTest.Models.ISurveyRepository
-    {
         private static SurveyModel[] _surveys = new SurveyModel[]
         {
             new SurveyModel
             {
                 Id = 1,
-                Name = "Welcome to the Remedy Healthcare risk assessment tool",
-                Questions = QuestionList.Questions
+                Name = "Remedy HRA",
+                Description = "Welcome to the Remedy Healthcare risk assessment tool",
+                Questions = _questions
                 .Select((q, idx) => new SurveyQuestion { Order = idx, QuestionDef = q, Mandatory = q.HasResult })
                 .ToList()
             },
         };
 
         public IList<SurveyModel> ListSurveys() { return _surveys; }
+
+        public SurveyModel GetSurvey(int surveyId)
+        {
+            return _surveys.FirstOrDefault(s => s.Id == surveyId);
+        }
+    }
+
+    public class SurveyRepository : SurveyTest.Models.ISurveyRepository
+    {
+        private readonly ISurveyMapper _surveyMapper;
+
+        public SurveyRepository(ISurveyMapper surveyMapper)
+        {
+            _surveyMapper = surveyMapper;
+        }
+
+        public IList<SurveyModel> ListSurveys() 
+        {
+            using (var db = new Repository.SurveyTestEntities())
+            {
+                return db.surveys.ToList().Select(s => _surveyMapper.MapSurvey(s)).ToList();
+            }
+        }
+
+        public SurveyModel GetSurvey(int surveyId)
+        {
+            using (var db = new Repository.SurveyTestEntities())
+            {
+                var surveys = db.surveys.Where(s => s.survey_id == surveyId);
+
+                return surveys.Any()
+                    ? _surveyMapper.MapSurveyAndQuestions(surveys.First())
+                    : null;
+            }
+        }
     }
 }

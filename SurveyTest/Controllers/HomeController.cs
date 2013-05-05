@@ -11,10 +11,9 @@ namespace SurveyTest.Controllers
     {
         private readonly ISurveyRepository _surveyRepository;
 
-        public HomeController()
+        public HomeController(ISurveyRepository surveyRepository)
         {
-            _surveyRepository = new SurveyRepository();
-
+            _surveyRepository = surveyRepository;
         }
 
         public ActionResult Index()

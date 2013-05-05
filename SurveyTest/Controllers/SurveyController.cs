@@ -11,24 +11,22 @@ namespace SurveyTest.Controllers
     {
         private readonly ISurveyRepository _surveyRepository;
 
-        public SurveyController()
+        public SurveyController(ISurveyRepository surveyRepository)
         {
-            _surveyRepository = new SurveyRepository();
-
+            _surveyRepository = surveyRepository;
         }
 
         [HttpGet]
         public ActionResult Index(int id)
         {
-            var survey = _surveyRepository.ListSurveys().First(x => x.Id == id);
-
+            var survey = _surveyRepository.GetSurvey(id);
             return View(survey);
         }
 
         [HttpPost]
         public ActionResult Index(int id, string save)
         {
-            var survey = _surveyRepository.ListSurveys().First(x => x.Id == id);
+            var survey = _surveyRepository.GetSurvey(id);
 
             if (!TryUpdateModel(survey))
             {

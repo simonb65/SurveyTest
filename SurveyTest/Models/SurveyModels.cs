@@ -43,6 +43,7 @@ namespace SurveyTest.Models
 
         public abstract QuestionResult GetResult(IValueProvider provider);
 
+        // Utility Methods
         protected bool TryGetValue(IValueProvider provider, string key, out int value)
         {
             value = 0;
@@ -279,6 +280,7 @@ namespace SurveyTest.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
         public IList<SurveyQuestion> Questions { get; set; }
     }
 }

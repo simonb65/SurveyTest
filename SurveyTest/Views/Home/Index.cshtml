@@ -11,6 +11,6 @@
 <ul>
 @foreach (var survey in Model)
 { 
-        <li>@Html.ActionLink(survey.Name, "Index", "Survey", new { id = survey.Id }, null)</li>
+        <li>@Html.ActionLink(survey.Name, "Index", "Survey", new { id = survey.Id }, null) - @survey.Description</li>
 }
 </ul>
