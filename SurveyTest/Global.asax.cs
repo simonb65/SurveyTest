@@ -40,6 +40,8 @@ namespace SurveyTest
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+
+            ModelBinders.Binders.Add(typeof(SurveyTest.Models.SurveyModel), new SurveyModelBinder());
         }
     }
 }

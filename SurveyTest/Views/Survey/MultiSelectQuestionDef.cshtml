@@ -1,0 +1,34 @@
+﻿@using SurveyTest.Models
+@model SurveyQuestion
+
+@{ var surveyDef = (MultiSelectQuestionDef)Model.QuestionDef; }
+
+<div id='@surveyDef.QuestionName'>
+    <label>@surveyDef.PromptText</label>
+
+@{ 
+    IList<int> checkedAnswers = null;
+    if ((Model.Answer == null) && (Model.Mandatory) && !ViewData.ModelState.IsValid)
+    { 
+        <span class="error">* Required</span>
+    }
+    else 
+    {
+        if (Model.Answer != null)
+        {
+            checkedAnswers = ((SimpleQuestionResult<IList<int>>)Model.Answer).Value;
+        }
+    }
+    <br />
+    
+    var idx = 0; 
+
+    foreach (var question in surveyDef.QuestionTexts)
+    {
+        var atts = new Dictionary<string, object> { { "id", surveyDef.QuestionName + "_" + idx.ToString("00") } };
+        if ((checkedAnswers != null) && (checkedAnswers.Contains(idx))) { atts["checked"] = true; }
+        
+        @Html.CheckBox(surveyDef.ResultName(idx++), atts)<label>@question</label><br />
+    }
+}
+</div>

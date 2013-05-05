@@ -1,0 +1,28 @@
+﻿@using SurveyTest.Models
+@model SurveyQuestion
+           
+@{ 
+    var surveyDef = (BloodPressureQuestionDef)Model.QuestionDef;
+    string sysPress = string.Empty;
+    string diaPress = string.Empty;
+    
+    if (Model.Answer != null)
+    {
+        var ans = (BloodPressureQuestionResult)Model.Answer;
+        sysPress = (ans.SysPress != 0) ? ans.SysPress.ToString() : string.Empty;
+        diaPress = (ans.DiaPress != 0) ? ans.DiaPress.ToString() : string.Empty;
+    }
+}
+
+<div id='@surveyDef.QuestionName'>
+    <label>@surveyDef.PromptText</label>
+    @if ((Model.Answer == null) && (Model.Mandatory) && !ViewData.ModelState.IsValid)
+    { 
+        <span class="error">* Required</span>
+    }
+    <input type="text" id="@surveyDef.SysName" name="@surveyDef.SysName" maxlength="3" class="detailsTextboxSmall" value="@sysPress" />
+    /
+    <input type="text" id="@surveyDef.DiaName" name="@surveyDef.DiaName" maxlength="3"  class="detailsTextboxSmall" value="@diaPress" />                                            
+    mmHg (if known)
+    <br />
+</div>

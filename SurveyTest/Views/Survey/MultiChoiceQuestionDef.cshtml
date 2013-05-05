@@ -1,0 +1,40 @@
+﻿@using SurveyTest.Models
+@model SurveyQuestion
+           
+@{ 
+    var surveyDef = (MultiChoiceQuestionDef)Model.QuestionDef;
+    var checkedIdx = -1;
+}
+
+<div id='@surveyDef.QuestionName'>
+    <label>@surveyDef.PromptText</label>
+    
+    @if ((Model.Answer == null) && (Model.Mandatory) && !ViewData.ModelState.IsValid)
+    { 
+        <span class="error">* Required</span>
+    }
+    else 
+    {
+        if (Model.Answer != null)
+        {
+            if (Model.QuestionDef is YesNoSurveyQuestion)
+            {
+                checkedIdx = ((SimpleQuestionResult<bool>)Model.Answer).Value ? 0 : 1;
+            }
+            else
+            { 
+                checkedIdx = ((SimpleQuestionResult<int>)Model.Answer).Value;
+            }
+        }
+    }
+    
+    <br />
+    @{ var idx = 0; }
+    @foreach (var question in surveyDef.QuestionTexts)
+    { 
+        var atts = new Dictionary<string, object> { { "id", surveyDef.QuestionName + "_" + idx.ToString("00") } };
+        if (idx == checkedIdx) { atts["checked"] = true; }
+        
+        @Html.RadioButton(surveyDef.GroupName, surveyDef.ResultName(idx++), atts)@question<br/>
+    }
+</div>

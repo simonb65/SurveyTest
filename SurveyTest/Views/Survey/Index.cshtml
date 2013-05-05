@@ -1,0 +1,17 @@
+﻿@model SurveyTest.Models.SurveyModel
+
+@{
+    ViewBag.Title = "Survey";
+}
+
+<h1>@Model.Name</h1>
+
+@using (Html.BeginForm("Index", "Survey", new { id = Model.Id }))
+{ 
+    foreach (var question in Model.Questions.OrderBy(x => x.Order))
+    { 
+        @Html.Partial(question.QuestionDef.FormatType, question)
+    }
+    <br />
+    <input type="submit" value="Submit Results" name="save" />
+}

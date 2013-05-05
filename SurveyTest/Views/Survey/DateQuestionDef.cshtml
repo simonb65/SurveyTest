@@ -1,0 +1,36 @@
+﻿@using SurveyTest.Models
+@model SurveyQuestion
+           
+@{ 
+    var surveyDef = (DateQuestionDef)Model.QuestionDef;
+}
+
+<div id='@surveyDef.QuestionName'>
+    <label>@surveyDef.PromptText</label>
+    @if ((Model.Answer == null) && (Model.Mandatory) && !ViewData.ModelState.IsValid)
+    { 
+        <span class="error">* Required</span>
+    }
+    @{ DateTime? setDate = (Model.Answer != null) ? ((SimpleQuestionResult<DateTime>)(Model.Answer)).Value : (DateTime?)null; }
+
+    <div>
+        <select id="@surveyDef.DayName" name="@surveyDef.DayName" style="border: 1px solid gray;width: 48px">
+            <option value="0">-</option>
+            @for (var date = 1; date <= 31; date++) { 
+            <option value="@date" @(((setDate.HasValue) && (date == setDate.Value.Day)) ? "selected" : string.Empty)>@date.ToString("00")</option>
+            }
+        </select>
+        <select id="@surveyDef.MonthName" name="@surveyDef.MonthName" style="border: 1px solid gray;width: 48px">
+            <option value="0">-</option>
+            @for (var month = 1; month <= 12; month++) { 
+            <option value="@month" @(((setDate.HasValue) && (month == setDate.Value.Month)) ? "selected" : string.Empty)>@month.ToString("00")</option>
+            }
+        </select>
+        <select id="@surveyDef.YearName" name="@surveyDef.YearName"  style="border: 1px solid gray;width: 64px">
+            <option value="0">-</option>
+            @for (var year = 1900; year <= DateTime.Today.Year - 1; year++)             { 
+            <option value="@year" @(((setDate.HasValue) && (year == setDate.Value.Year)) ? "selected" : string.Empty)>@year.ToString("0000")</option>
+            }
+        </select>
+    </div>
+</div>

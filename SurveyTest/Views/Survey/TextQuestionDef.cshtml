@@ -1,0 +1,24 @@
+﻿@using SurveyTest.Models
+@model SurveyQuestion
+@{ 
+    var surveyDef = (TextQuestionDef)Model.QuestionDef;
+}
+
+<div id='@surveyDef.QuestionName'>
+    <label>@surveyDef.PromptText</label>
+    @if ((Model.Answer == null) && (Model.Mandatory) && !ViewData.ModelState.IsValid)
+    { 
+        <span class="error">* Required</span>
+    }
+
+    @if (surveyDef.SingleLine)
+    { 
+        @Html.TextBox(surveyDef.ResultName, Model.Answer)
+    }
+    else 
+    { 
+        @Html.TextArea(surveyDef.ResultName, Model.Answer)
+    }
+    
+    @surveyDef.QuestionSuffix
+</div>

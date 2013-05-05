@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SurveyTest.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,11 +9,21 @@ namespace SurveyTest.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ISurveyRepository _surveyRepository;
+
+        public HomeController()
+        {
+            _surveyRepository = new SurveyRepository();
+
+        }
+
         public ActionResult Index()
         {
-            ViewBag.Message = "Welcome to ASP.NET MVC!";
+            ViewBag.Message = "Welcome to Test Survey System";
 
-            return View();
+            var surveys = _surveyRepository.ListSurveys();
+
+            return View(surveys);
         }
 
         public ActionResult About()

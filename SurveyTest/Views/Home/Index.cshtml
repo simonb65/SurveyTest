@@ -1,8 +1,16 @@
-﻿@{
+﻿@model IList<SurveyTest.Models.SurveyModel>
+@{
     ViewBag.Title = "Home Page";
+    
 }
 
 <h2>@ViewBag.Message</h2>
-<p>
-    To learn more about ASP.NET MVC visit <a href="http://asp.net/mvc" title="ASP.NET MVC Website">http://asp.net/mvc</a>.
-</p>
+
+<h3>Surveys</h3>
+
+<ul>
+@foreach (var survey in Model)
+{ 
+        <li>@Html.ActionLink(survey.Name, "Index", "Survey", new { id = survey.Id }, null)</li>
+}
+</ul>

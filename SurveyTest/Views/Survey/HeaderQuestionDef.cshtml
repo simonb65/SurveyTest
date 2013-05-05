@@ -1,0 +1,11 @@
+﻿@using SurveyTest.Models
+@model SurveyQuestion
+           
+@{ 
+    var surveyDef = (HeaderQuestionDef)Model.QuestionDef;
+}
+
+<div id='@surveyDef.QuestionName'>
+    <h3>@surveyDef.PromptText</h3>
+    <br />
+</div>

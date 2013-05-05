@@ -97,10 +97,14 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SurveyController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\ISurveyRepository.cs" />
+    <Compile Include="Models\SurveyModels.cs" />
+    <Compile Include="Models\SurveyRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -197,6 +201,13 @@
     <Content Include="Views\Shared\_LogOnPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
+    <Content Include="Views\Survey\BloodPressureQuestionDef.cshtml" />
+    <Content Include="Views\Survey\DateQuestionDef.cshtml" />
+    <Content Include="Views\Survey\HeaderQuestionDef.cshtml" />
+    <Content Include="Views\Survey\Index.cshtml" />
+    <Content Include="Views\Survey\MultiChoiceQuestionDef.cshtml" />
+    <Content Include="Views\Survey\MultiSelectQuestionDef.cshtml" />
+    <Content Include="Views\Survey\TextQuestionDef.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
