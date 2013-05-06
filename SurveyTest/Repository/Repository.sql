@@ -31,7 +31,7 @@ create table question
 (
     question_id int not null identity(1, 1) primary key,
     question_format_id int not null foreign key references question_format(question_format_id),
-	prompt_text varchar(100) not null,
+	prompt_text varchar(255) not null,
 	question_details varchar(max) null
 );
 
