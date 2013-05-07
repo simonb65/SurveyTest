@@ -33,22 +33,36 @@ namespace SurveyTest.Controllers
                 return View(survey);
             }
 
-            var model = new SubmitSurveyModel { SurveySessKey = Guid.NewGuid().ToString() };
+            var surveySessKey = Guid.NewGuid().ToString();
 
-            Session[model.SurveySessKey] = survey;
+            Session[surveySessKey] = survey;
 
-            return View("Thanks", model);
+            TempData["SurveySessKey"] = surveySessKey;
+
+            return RedirectToAction("Thanks");
+        }
+
+        [HttpGet]
+        public ActionResult Thanks()
+        {
+            var model = new SubmitSurveyModel { SurveySessKey = (string)TempData["SurveySessKey"] };
+
+            return View(model);
         }
 
         [HttpPost]
-        public ActionResult Store(SubmitSurveyModel model)
+        public ActionResult Thanks(SubmitSurveyModel model)
         {
+            if (ModelState.IsValid)
+            {
+                var survey = (SurveyModel)Session[model.SurveySessKey];
+                _surveyRepository.StoreSurveyResult(model, survey);
 
-            var survey = (SurveyModel)Session[model.SurveySessKey];
+                return RedirectToAction("Index", "Home");
+            }
 
-            _surveyRepository.StoreSurveyResult(model, survey);
-
-            return RedirectToAction("Index", "Home");
+            // If we got this far, something failed, redisplay form
+            return View(model);
         }
     }
 }

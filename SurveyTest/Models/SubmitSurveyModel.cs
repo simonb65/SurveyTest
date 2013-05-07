@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Web;
+using System.ComponentModel.DataAnnotations;
+using System.Globalization;
+using System.Web.Mvc;
+using System.Web.Security;
 
 namespace SurveyTest.Models
 {
@@ -10,10 +11,13 @@ namespace SurveyTest.Models
     {
         public string SurveySessKey { get; set; }
 
-        [Description("Persons Name")] 
+        [Required]
+        [Display(Name = "Survey name")]
         public string Name { get; set; }
 
-        [Description("Persons Email")]
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "Email address")]
         public string Email { get; set; }
     }
 }
