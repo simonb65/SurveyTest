@@ -7,5 +7,7 @@ namespace SurveyTest.Models
     {
         IList<SurveyModel> ListSurveys();
         SurveyModel GetSurvey(int surveyId);
+
+        void StoreSurveyResult(SubmitSurveyModel submit, SurveyModel survey);
     }
 }

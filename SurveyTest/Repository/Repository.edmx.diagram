@@ -4,14 +4,19 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="26a3f09a0bd44ccaa849ccfa0f1364b6" Name="Diagram1">
-        <EntityTypeShape EntityType="SurveyTestModel.question" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="SurveyTestModel.question_format" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="SurveyTestModel.survey" Width="1.5" PointX="7.25" PointY="2.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="SurveyTestModel.survey_question" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
-        <AssociationConnector Association="SurveyTestModel.FK__question__questi__76969D2E" ManuallyRouted="false" />
-        <AssociationConnector Association="SurveyTestModel.FK__survey_qu__quest__7A672E12" ManuallyRouted="false" />
-        <AssociationConnector Association="SurveyTestModel.FK__survey_qu__surve__797309D9" ManuallyRouted="false" />
+      <Diagram DiagramId="023677892b224a65928d818f88ff3747" Name="Diagram1">
+        <EntityTypeShape EntityType="SurveyTestModel.question_def" Width="1.5" PointX="2.625" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="SurveyTestModel.question_format" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SurveyTestModel.survey" Width="1.5" PointX="7" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SurveyTestModel.survey_answer" Width="1.5" PointX="3.625" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SurveyTestModel.survey_question" Width="1.5" PointX="4.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SurveyTestModel.survey_response" Width="1.5" PointX="6.875" PointY="3.375" IsExpanded="true" />
+        <AssociationConnector Association="SurveyTestModel.FK__question___quest__1B9317B3" ManuallyRouted="false" />
+        <AssociationConnector Association="SurveyTestModel.FK__survey_qu__surve__1E6F845E" ManuallyRouted="false" />
+        <AssociationConnector Association="SurveyTestModel.FK__survey_an__surve__251C81ED" ManuallyRouted="false" />
+        <AssociationConnector Association="SurveyTestModel.FK__survey_an__surve__2610A626" ManuallyRouted="false" />
+        <AssociationConnector Association="SurveyTestModel.FK__survey_re__surve__4B422AD5" />
+        <AssociationConnector Association="SurveyTestModel.FK__survey_qu__quest__6D9742D9" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

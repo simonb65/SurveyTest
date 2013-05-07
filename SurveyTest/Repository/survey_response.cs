@@ -12,15 +12,20 @@ namespace SurveyTest.Repository
     using System;
     using System.Collections.Generic;
     
-    public partial class survey_question
+    public partial class survey_response
     {
-        public int survey_question_id { get; set; }
-        public int survey_id { get; set; }
-        public int question_order { get; set; }
-        public Nullable<bool> mandatory { get; set; }
-        public int question_def_id { get; set; }
+        public survey_response()
+        {
+            this.survey_answer = new HashSet<survey_answer>();
+        }
     
+        public int survey_response_id { get; set; }
+        public System.DateTime date_taken { get; set; }
+        public string person_name { get; set; }
+        public string email_address { get; set; }
+        public int survey_id { get; set; }
+    
+        public virtual ICollection<survey_answer> survey_answer { get; set; }
         public virtual survey survey { get; set; }
-        public virtual question_def question_def { get; set; }
     }
 }

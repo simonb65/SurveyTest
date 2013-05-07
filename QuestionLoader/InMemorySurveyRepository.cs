@@ -75,5 +75,10 @@ namespace QuestionLoader
         {
             return _surveys.FirstOrDefault(s => s.Id == surveyId);
         }
+
+        public void StoreSurveyResult(SubmitSurveyModel submit, SurveyModel survey)
+        {
+            // Yes yes, jolly good wot
+        }
     }
 }

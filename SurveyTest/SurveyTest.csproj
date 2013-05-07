@@ -113,9 +113,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\SubmitSurveyModel.cs" />
     <Compile Include="Repository\ISurveyRepository.cs" />
     <Compile Include="Models\SurveyModels.cs" />
-    <Compile Include="Repository\question.cs">
+    <Compile Include="Repository\question_def.cs">
       <DependentUpon>Repository.tt</DependentUpon>
     </Compile>
     <Compile Include="Repository\question_format.cs">
@@ -142,7 +143,13 @@
     <Compile Include="Repository\SurveyMapper.cs" />
     <Compile Include="Repository\SurveyRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\survey_answer.cs">
+      <DependentUpon>Repository.tt</DependentUpon>
+    </Compile>
     <Compile Include="Repository\survey_question.cs">
+      <DependentUpon>Repository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\survey_response.cs">
       <DependentUpon>Repository.tt</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -266,6 +273,7 @@
     <Content Include="Views\Survey\MultiChoiceQuestionDef.cshtml" />
     <Content Include="Views\Survey\MultiSelectQuestionDef.cshtml" />
     <Content Include="Views\Survey\TextQuestionDef.cshtml" />
+    <Content Include="Views\Survey\Thanks.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

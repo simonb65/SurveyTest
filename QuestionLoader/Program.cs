@@ -78,7 +78,7 @@ namespace QuestionLoader
                     }
 
                     Console.WriteLine(
-                        "insert into question(question_format_id, prompt_text, question_details) values({0}, '{1}', {2});", 
+                        "insert into question_def(question_format_id, prompt_text, question_details) values({0}, '{1}', {2});", 
                         formatId,
                         sq.QuestionDef.PromptText,
                         (serialisedData == null) ? "null" : ("'" + serialisedData + "'"));

@@ -12,15 +12,14 @@ namespace SurveyTest.Repository
     using System;
     using System.Collections.Generic;
     
-    public partial class survey_question
+    public partial class survey_answer
     {
+        public int survey_answer_id { get; set; }
+        public int survey_response_id { get; set; }
         public int survey_question_id { get; set; }
-        public int survey_id { get; set; }
-        public int question_order { get; set; }
-        public Nullable<bool> mandatory { get; set; }
-        public int question_def_id { get; set; }
+        public string survey_answer1 { get; set; }
     
-        public virtual survey survey { get; set; }
-        public virtual question_def question_def { get; set; }
+        public virtual survey_response survey_response { get; set; }
+        public virtual survey_question survey_question { get; set; }
     }
 }

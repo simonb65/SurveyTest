@@ -107,6 +107,19 @@ namespace SurveyTest.Models
         }
     }
 
+    public class MultiChoiceQuestionResult : SimpleQuestionResult<int>
+    {
+        public MultiChoiceQuestionResult(MultiChoiceQuestionDef question)
+            : base(question)
+        {
+
+        }
+        public override string ToString()
+        {
+            return ((MultiChoiceQuestionDef)Question).QuestionTexts[Value];
+        }
+    }
+
     public class MultiChoiceQuestionDef : SurveyQuestionDef
     {
         public IList<string> QuestionTexts { get; protected set; }
@@ -130,7 +143,7 @@ namespace SurveyTest.Models
             if (TryGetValue(provider, GroupName, out value))
             {
                 var idx = int.Parse(value.Substring(ResultPrefix.Length));
-                return new SimpleQuestionResult<int>(this) { Value = idx };
+                return new MultiChoiceQuestionResult(this) { Value = idx };
             }
             
             return null;
@@ -199,6 +212,20 @@ namespace SurveyTest.Models
         }
     }
 
+    public class MultiSelectQuestionResult : SimpleQuestionResult<IList<int>>
+    {
+        public MultiSelectQuestionResult(MultiSelectQuestionDef question)
+            : base(question)
+        {
+
+        }
+        public override string ToString()
+        {
+            var qts = ((MultiSelectQuestionDef)Question).QuestionTexts;
+            return string.Join("|", Value.Select(x => qts[x]));
+        }
+    }
+
     public class MultiSelectQuestionDef : MultiChoiceQuestionDef
     {
         public MultiSelectQuestionDef(int id, string promptText, IList<string> questionTexts)
@@ -223,7 +250,7 @@ namespace SurveyTest.Models
                     results.Add(idx);
             }
 
-            return (results.Count > 0) ? new SimpleQuestionResult<IList<int>>(this) { Value = results } : null;
+            return (results.Count > 0) ? new MultiSelectQuestionResult(this) { Value = results } : null;
         }
     }
 

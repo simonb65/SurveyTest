@@ -6,7 +6,7 @@
 
 <h1>@Model.Name</h1>
 
-@using (Html.BeginForm("Index", "Survey", new { id = Model.Id }))
+@using (Html.BeginForm(new { id = Model.Id }))
 { 
     foreach (var question in Model.Questions.OrderBy(x => x.Order))
     { 

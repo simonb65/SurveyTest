@@ -12,9 +12,9 @@ namespace SurveyTest.Repository
     using System;
     using System.Collections.Generic;
     
-    public partial class question
+    public partial class question_def
     {
-        public int question_id { get; set; }
+        public int question_def_id { get; set; }
         public int question_format_id { get; set; }
         public string prompt_text { get; set; }
         public string question_details { get; set; }

@@ -34,5 +34,37 @@ namespace SurveyTest.Models
                     : null;
             }
         }
+
+        public void StoreSurveyResult(SubmitSurveyModel submit, SurveyModel surveyModel)
+        {
+            using (var db = new Repository.SurveyTestEntities())
+            {
+                var survey = db.surveys.Find(surveyModel.Id);
+
+                var surveyReponse = new survey_response
+                {
+                    survey = survey,
+                    person_name = submit.Name,
+                    email_address = submit.Email,
+                    date_taken = DateTime.Now
+                };
+
+                db.survey_response.Add(surveyReponse);
+
+                foreach (var sq in surveyModel.Questions.Where(q => q.QuestionDef.HasResult))
+                {
+                    var sa = new survey_answer
+                    {
+                        survey_response = surveyReponse,
+                        survey_question = survey.survey_question.First(x => x.question_def_id == sq.QuestionDef.Id),
+                        survey_answer1 = sq.Answer.ToString()
+                    };
+
+                    db.survey_answer.Add(sa);
+                }
+
+                db.SaveChanges();
+            }
+        }
     }
 }

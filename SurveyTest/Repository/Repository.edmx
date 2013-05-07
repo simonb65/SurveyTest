@@ -6,30 +6,44 @@
     <edmx:StorageModels>
     <Schema Namespace="SurveyTestModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="SurveyTestModelStoreContainer">
-          <EntitySet Name="question" EntityType="SurveyTestModel.Store.question" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="question_def" EntityType="SurveyTestModel.Store.question_def" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="question_format" EntityType="SurveyTestModel.Store.question_format" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="survey" EntityType="SurveyTestModel.Store.survey" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="survey_answer" EntityType="SurveyTestModel.Store.survey_answer" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="survey_question" EntityType="SurveyTestModel.Store.survey_question" store:Type="Tables" Schema="dbo" />
-          <AssociationSet Name="FK__question__questi__02FC7413" Association="SurveyTestModel.Store.FK__question__questi__02FC7413">
+          <EntitySet Name="survey_response" EntityType="SurveyTestModel.Store.survey_response" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK__question___quest__69C6B1F5" Association="SurveyTestModel.Store.FK__question___quest__69C6B1F5">
             <End Role="question_format" EntitySet="question_format" />
-            <End Role="question" EntitySet="question" />
+            <End Role="question_def" EntitySet="question_def" />
           </AssociationSet>
-          <AssociationSet Name="FK__survey_qu__quest__06CD04F7" Association="SurveyTestModel.Store.FK__survey_qu__quest__06CD04F7">
-            <End Role="question" EntitySet="question" />
+          <AssociationSet Name="FK__survey_an__surve__74444068" Association="SurveyTestModel.Store.FK__survey_an__surve__74444068">
+            <End Role="survey_response" EntitySet="survey_response" />
+            <End Role="survey_answer" EntitySet="survey_answer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__survey_an__surve__753864A1" Association="SurveyTestModel.Store.FK__survey_an__surve__753864A1">
+            <End Role="survey_question" EntitySet="survey_question" />
+            <End Role="survey_answer" EntitySet="survey_answer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__survey_qu__quest__6D9742D9" Association="SurveyTestModel.Store.FK__survey_qu__quest__6D9742D9">
+            <End Role="question_def" EntitySet="question_def" />
             <End Role="survey_question" EntitySet="survey_question" />
           </AssociationSet>
-          <AssociationSet Name="FK__survey_qu__surve__05D8E0BE" Association="SurveyTestModel.Store.FK__survey_qu__surve__05D8E0BE">
+          <AssociationSet Name="FK__survey_qu__surve__6CA31EA0" Association="SurveyTestModel.Store.FK__survey_qu__surve__6CA31EA0">
             <End Role="survey" EntitySet="survey" />
             <End Role="survey_question" EntitySet="survey_question" />
           </AssociationSet>
+          <AssociationSet Name="FK__survey_re__surve__7167D3BD" Association="SurveyTestModel.Store.FK__survey_re__surve__7167D3BD">
+            <End Role="survey" EntitySet="survey" />
+            <End Role="survey_response" EntitySet="survey_response" />
+          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="question">
+        <EntityType Name="question_def">
           <Key>
-            <PropertyRef Name="question_id" />
+            <PropertyRef Name="question_def_id" />
           </Key>
-          <Property Name="question_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="question_def_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="question_format_id" Type="int" Nullable="false" />
-          <Property Name="prompt_text" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="prompt_text" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="question_details" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="question_format">
@@ -48,41 +62,84 @@
           <Property Name="survey" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="survey_desc" Type="varchar(max)" />
         </EntityType>
+        <EntityType Name="survey_answer">
+          <Key>
+            <PropertyRef Name="survey_answer_id" />
+          </Key>
+          <Property Name="survey_answer_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="survey_response_id" Type="int" Nullable="false" />
+          <Property Name="survey_question_id" Type="int" Nullable="false" />
+          <Property Name="survey_answer" Type="varchar" Nullable="false" MaxLength="255" />
+        </EntityType>
         <EntityType Name="survey_question">
           <Key>
             <PropertyRef Name="survey_question_id" />
           </Key>
           <Property Name="survey_question_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="survey_id" Type="int" Nullable="false" />
-          <Property Name="question_id" Type="int" Nullable="false" />
+          <Property Name="question_def_id" Type="int" Nullable="false" />
           <Property Name="question_order" Type="int" Nullable="false" />
           <Property Name="mandatory" Type="bit" />
         </EntityType>
-        <Association Name="FK__question__questi__02FC7413">
+        <EntityType Name="survey_response">
+          <Key>
+            <PropertyRef Name="survey_response_id" />
+          </Key>
+          <Property Name="survey_response_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="survey_id" Type="int" Nullable="false" />
+          <Property Name="date_taken" Type="datetime" Nullable="false" />
+          <Property Name="person_name" Type="varchar" MaxLength="100" />
+          <Property Name="email_address" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK__question___quest__69C6B1F5">
           <End Role="question_format" Type="SurveyTestModel.Store.question_format" Multiplicity="1" />
-          <End Role="question" Type="SurveyTestModel.Store.question" Multiplicity="*" />
+          <End Role="question_def" Type="SurveyTestModel.Store.question_def" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="question_format">
               <PropertyRef Name="question_format_id" />
             </Principal>
-            <Dependent Role="question">
+            <Dependent Role="question_def">
               <PropertyRef Name="question_format_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__survey_qu__quest__06CD04F7">
-          <End Role="question" Type="SurveyTestModel.Store.question" Multiplicity="1" />
-          <End Role="survey_question" Type="SurveyTestModel.Store.survey_question" Multiplicity="*" />
+        <Association Name="FK__survey_an__surve__74444068">
+          <End Role="survey_response" Type="SurveyTestModel.Store.survey_response" Multiplicity="1" />
+          <End Role="survey_answer" Type="SurveyTestModel.Store.survey_answer" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="question">
-              <PropertyRef Name="question_id" />
+            <Principal Role="survey_response">
+              <PropertyRef Name="survey_response_id" />
             </Principal>
-            <Dependent Role="survey_question">
-              <PropertyRef Name="question_id" />
+            <Dependent Role="survey_answer">
+              <PropertyRef Name="survey_response_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__survey_qu__surve__05D8E0BE">
+        <Association Name="FK__survey_an__surve__753864A1">
+          <End Role="survey_question" Type="SurveyTestModel.Store.survey_question" Multiplicity="1" />
+          <End Role="survey_answer" Type="SurveyTestModel.Store.survey_answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="survey_question">
+              <PropertyRef Name="survey_question_id" />
+            </Principal>
+            <Dependent Role="survey_answer">
+              <PropertyRef Name="survey_question_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__survey_qu__quest__6D9742D9">
+          <End Role="question_def" Type="SurveyTestModel.Store.question_def" Multiplicity="1" />
+          <End Role="survey_question" Type="SurveyTestModel.Store.survey_question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="question_def">
+              <PropertyRef Name="question_def_id" />
+            </Principal>
+            <Dependent Role="survey_question">
+              <PropertyRef Name="question_def_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__survey_qu__surve__6CA31EA0">
           <End Role="survey" Type="SurveyTestModel.Store.survey" Multiplicity="1" />
           <End Role="survey_question" Type="SurveyTestModel.Store.survey_question" Multiplicity="*" />
           <ReferentialConstraint>
@@ -94,37 +151,63 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__survey_re__surve__7167D3BD">
+          <End Role="survey" Type="SurveyTestModel.Store.survey" Multiplicity="1" />
+          <End Role="survey_response" Type="SurveyTestModel.Store.survey_response" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="survey">
+              <PropertyRef Name="survey_id" />
+            </Principal>
+            <Dependent Role="survey_response">
+              <PropertyRef Name="survey_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SurveyTestModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="SurveyTestEntities" p1:LazyLoadingEnabled="true">
-          <EntitySet Name="questions" EntityType="SurveyTestModel.question" />
+          <EntitySet Name="question_def" EntityType="SurveyTestModel.question_def" />
           <EntitySet Name="question_format" EntityType="SurveyTestModel.question_format" />
           <EntitySet Name="surveys" EntityType="SurveyTestModel.survey" />
+          <EntitySet Name="survey_answer" EntityType="SurveyTestModel.survey_answer" />
           <EntitySet Name="survey_question" EntityType="SurveyTestModel.survey_question" />
-          <AssociationSet Name="FK__question__questi__76969D2E" Association="SurveyTestModel.FK__question__questi__76969D2E">
+          <EntitySet Name="survey_response" EntityType="SurveyTestModel.survey_response" />
+          <AssociationSet Name="FK__question___quest__1B9317B3" Association="SurveyTestModel.FK__question___quest__1B9317B3">
             <End Role="question_format" EntitySet="question_format" />
-            <End Role="question" EntitySet="questions" />
+            <End Role="question_def" EntitySet="question_def" />
           </AssociationSet>
-          <AssociationSet Name="FK__survey_qu__quest__7A672E12" Association="SurveyTestModel.FK__survey_qu__quest__7A672E12">
-            <End Role="question" EntitySet="questions" />
-            <End Role="survey_question" EntitySet="survey_question" />
-          </AssociationSet>
-          <AssociationSet Name="FK__survey_qu__surve__797309D9" Association="SurveyTestModel.FK__survey_qu__surve__797309D9">
+          <AssociationSet Name="FK__survey_qu__surve__1E6F845E" Association="SurveyTestModel.FK__survey_qu__surve__1E6F845E">
             <End Role="survey" EntitySet="surveys" />
             <End Role="survey_question" EntitySet="survey_question" />
           </AssociationSet>
+          <AssociationSet Name="FK__survey_an__surve__251C81ED" Association="SurveyTestModel.FK__survey_an__surve__251C81ED">
+            <End Role="survey_response" EntitySet="survey_response" />
+            <End Role="survey_answer" EntitySet="survey_answer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__survey_an__surve__2610A626" Association="SurveyTestModel.FK__survey_an__surve__2610A626">
+            <End Role="survey_question" EntitySet="survey_question" />
+            <End Role="survey_answer" EntitySet="survey_answer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__survey_re__surve__4B422AD5" Association="SurveyTestModel.FK__survey_re__surve__4B422AD5">
+            <End Role="survey" EntitySet="surveys" />
+            <End Role="survey_response" EntitySet="survey_response" />
+          </AssociationSet>
+          <AssociationSet Name="FK__survey_qu__quest__6D9742D9" Association="SurveyTestModel.FK__survey_qu__quest__6D9742D9">
+            <End Role="question_def" EntitySet="question_def" />
+            <End Role="survey_question" EntitySet="survey_question" />
+          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="question">
+        <EntityType Name="question_def">
           <Key>
-            <PropertyRef Name="question_id" />
+            <PropertyRef Name="question_def_id" />
           </Key>
-          <Property Name="question_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="question_def_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="question_format_id" Type="Int32" Nullable="false" />
-          <Property Name="prompt_text" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="prompt_text" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
           <Property Name="question_details" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="question_format" Relationship="SurveyTestModel.FK__question__questi__76969D2E" FromRole="question" ToRole="question_format" />
+          <NavigationProperty Name="question_format" Relationship="SurveyTestModel.FK__question___quest__1B9317B3" FromRole="question_def" ToRole="question_format" />
         </EntityType>
         <EntityType Name="question_format">
           <Key>
@@ -140,8 +223,19 @@
           </Key>
           <Property Name="survey_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="survey_name" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="survey_question" Relationship="SurveyTestModel.FK__survey_qu__surve__797309D9" FromRole="survey" ToRole="survey_question" />
-          <Property Type="String" Name="survey_desc" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="survey_desc" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="survey_question" Relationship="SurveyTestModel.FK__survey_qu__surve__1E6F845E" FromRole="survey" ToRole="survey_question" />
+        </EntityType>
+        <EntityType Name="survey_answer">
+          <Key>
+            <PropertyRef Name="survey_answer_id" />
+          </Key>
+          <Property Name="survey_answer_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="survey_response_id" Type="Int32" Nullable="false" />
+          <Property Name="survey_question_id" Type="Int32" Nullable="false" />
+          <Property Name="survey_answer1" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="survey_response" Relationship="SurveyTestModel.FK__survey_an__surve__251C81ED" FromRole="survey_answer" ToRole="survey_response" />
+          <NavigationProperty Name="survey_question" Relationship="SurveyTestModel.FK__survey_an__surve__2610A626" FromRole="survey_answer" ToRole="survey_question" />
         </EntityType>
         <EntityType Name="survey_question">
           <Key>
@@ -149,37 +243,37 @@
           </Key>
           <Property Name="survey_question_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="survey_id" Type="Int32" Nullable="false" />
-          <Property Name="question_id" Type="Int32" Nullable="false" />
           <Property Name="question_order" Type="Int32" Nullable="false" />
           <Property Name="mandatory" Type="Boolean" />
-          <NavigationProperty Name="question" Relationship="SurveyTestModel.FK__survey_qu__quest__7A672E12" FromRole="survey_question" ToRole="question" />
-          <NavigationProperty Name="survey" Relationship="SurveyTestModel.FK__survey_qu__surve__797309D9" FromRole="survey_question" ToRole="survey" />
+          <NavigationProperty Name="survey" Relationship="SurveyTestModel.FK__survey_qu__surve__1E6F845E" FromRole="survey_question" ToRole="survey" />
+          <Property Type="Int32" Name="question_def_id" Nullable="false" />
+          <NavigationProperty Name="question_def" Relationship="SurveyTestModel.FK__survey_qu__quest__6D9742D9" FromRole="survey_question" ToRole="question_def" />
         </EntityType>
-        <Association Name="FK__question__questi__76969D2E">
+        <EntityType Name="survey_response">
+          <Key>
+            <PropertyRef Name="survey_response_id" />
+          </Key>
+          <Property Name="survey_response_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="date_taken" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="person_name" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="email_address" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="survey_answer" Relationship="SurveyTestModel.FK__survey_an__surve__251C81ED" FromRole="survey_response" ToRole="survey_answer" />
+          <Property Type="Int32" Name="survey_id" Nullable="false" />
+          <NavigationProperty Name="survey" Relationship="SurveyTestModel.FK__survey_re__surve__4B422AD5" FromRole="survey_response" ToRole="survey" />
+        </EntityType>
+        <Association Name="FK__question___quest__1B9317B3">
           <End Role="question_format" Type="SurveyTestModel.question_format" Multiplicity="1" />
-          <End Role="question" Type="SurveyTestModel.question" Multiplicity="*" />
+          <End Role="question_def" Type="SurveyTestModel.question_def" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="question_format">
               <PropertyRef Name="question_format_id" />
             </Principal>
-            <Dependent Role="question">
+            <Dependent Role="question_def">
               <PropertyRef Name="question_format_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__survey_qu__quest__7A672E12">
-          <End Role="question" Type="SurveyTestModel.question" Multiplicity="1" />
-          <End Role="survey_question" Type="SurveyTestModel.survey_question" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="question">
-              <PropertyRef Name="question_id" />
-            </Principal>
-            <Dependent Role="survey_question">
-              <PropertyRef Name="question_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__survey_qu__surve__797309D9">
+        <Association Name="FK__survey_qu__surve__1E6F845E">
           <End Role="survey" Type="SurveyTestModel.survey" Multiplicity="1" />
           <End Role="survey_question" Type="SurveyTestModel.survey_question" Multiplicity="*" />
           <ReferentialConstraint>
@@ -191,16 +285,64 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__survey_an__surve__251C81ED">
+          <End Role="survey_response" Type="SurveyTestModel.survey_response" Multiplicity="1" />
+          <End Role="survey_answer" Type="SurveyTestModel.survey_answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="survey_response">
+              <PropertyRef Name="survey_response_id" />
+            </Principal>
+            <Dependent Role="survey_answer">
+              <PropertyRef Name="survey_response_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__survey_an__surve__2610A626">
+          <End Role="survey_question" Type="SurveyTestModel.survey_question" Multiplicity="1" />
+          <End Role="survey_answer" Type="SurveyTestModel.survey_answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="survey_question">
+              <PropertyRef Name="survey_question_id" />
+            </Principal>
+            <Dependent Role="survey_answer">
+              <PropertyRef Name="survey_question_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__survey_re__surve__4B422AD5">
+          <End Type="SurveyTestModel.survey" Role="survey" Multiplicity="1" />
+          <End Type="SurveyTestModel.survey_response" Role="survey_response" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="survey">
+              <PropertyRef Name="survey_id" />
+            </Principal>
+            <Dependent Role="survey_response">
+              <PropertyRef Name="survey_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__survey_qu__quest__6D9742D9">
+          <End Type="SurveyTestModel.question_def" Role="question_def" Multiplicity="1" />
+          <End Type="SurveyTestModel.survey_question" Role="survey_question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="question_def">
+              <PropertyRef Name="question_def_id" />
+            </Principal>
+            <Dependent Role="survey_question">
+              <PropertyRef Name="question_def_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="SurveyTestModelStoreContainer" CdmEntityContainer="SurveyTestEntities">
-          <EntitySetMapping Name="questions">
-            <EntityTypeMapping TypeName="SurveyTestModel.question">
-              <MappingFragment StoreEntitySet="question">
-                <ScalarProperty Name="question_id" ColumnName="question_id" />
+          <EntitySetMapping Name="question_def">
+            <EntityTypeMapping TypeName="SurveyTestModel.question_def">
+              <MappingFragment StoreEntitySet="question_def">
+                <ScalarProperty Name="question_def_id" ColumnName="question_def_id" />
                 <ScalarProperty Name="question_format_id" ColumnName="question_format_id" />
                 <ScalarProperty Name="prompt_text" ColumnName="prompt_text" />
                 <ScalarProperty Name="question_details" ColumnName="question_details" />
@@ -219,20 +361,41 @@
           <EntitySetMapping Name="surveys">
             <EntityTypeMapping TypeName="SurveyTestModel.survey">
               <MappingFragment StoreEntitySet="survey">
-                <ScalarProperty Name="survey_desc" ColumnName="survey_desc" />
                 <ScalarProperty Name="survey_id" ColumnName="survey_id" />
                 <ScalarProperty Name="survey_name" ColumnName="survey" />
+                <ScalarProperty Name="survey_desc" ColumnName="survey_desc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="survey_answer">
+            <EntityTypeMapping TypeName="SurveyTestModel.survey_answer">
+              <MappingFragment StoreEntitySet="survey_answer">
+                <ScalarProperty Name="survey_answer_id" ColumnName="survey_answer_id" />
+                <ScalarProperty Name="survey_response_id" ColumnName="survey_response_id" />
+                <ScalarProperty Name="survey_question_id" ColumnName="survey_question_id" />
+                <ScalarProperty Name="survey_answer1" ColumnName="survey_answer" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="survey_question">
             <EntityTypeMapping TypeName="SurveyTestModel.survey_question">
               <MappingFragment StoreEntitySet="survey_question">
+                <ScalarProperty Name="question_def_id" ColumnName="question_def_id" />
                 <ScalarProperty Name="survey_question_id" ColumnName="survey_question_id" />
                 <ScalarProperty Name="survey_id" ColumnName="survey_id" />
-                <ScalarProperty Name="question_id" ColumnName="question_id" />
                 <ScalarProperty Name="question_order" ColumnName="question_order" />
                 <ScalarProperty Name="mandatory" ColumnName="mandatory" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="survey_response">
+            <EntityTypeMapping TypeName="SurveyTestModel.survey_response">
+              <MappingFragment StoreEntitySet="survey_response">
+                <ScalarProperty Name="survey_id" ColumnName="survey_id" />
+                <ScalarProperty Name="survey_response_id" ColumnName="survey_response_id" />
+                <ScalarProperty Name="date_taken" ColumnName="date_taken" />
+                <ScalarProperty Name="person_name" ColumnName="person_name" />
+                <ScalarProperty Name="email_address" ColumnName="email_address" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

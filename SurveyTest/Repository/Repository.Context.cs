@@ -25,9 +25,11 @@ namespace SurveyTest.Repository
             throw new UnintentionalCodeFirstException();
         }
     
-        public DbSet<question> questions { get; set; }
+        public DbSet<question_def> question_def { get; set; }
         public DbSet<question_format> question_format { get; set; }
         public DbSet<survey> surveys { get; set; }
+        public DbSet<survey_answer> survey_answer { get; set; }
         public DbSet<survey_question> survey_question { get; set; }
+        public DbSet<survey_response> survey_response { get; set; }
     }
 }

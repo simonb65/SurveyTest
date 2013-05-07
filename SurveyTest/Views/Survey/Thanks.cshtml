@@ -1,0 +1,24 @@
+﻿@model SurveyTest.Models.SubmitSurveyModel
+@{
+    ViewBag.Title = "Thanks";
+}
+
+<h2>Thanks for doing the survey</h2>
+
+Survey Result => Relax your doing well!!
+
+@using (Html.BeginForm("Store", "Survey"))
+{ 
+    @Html.HiddenFor(m => m.SurveySessKey, Model.SurveySessKey);
+    
+    <div>
+        @Html.LabelFor(m => m.Name)
+        @Html.EditorFor(m => m.Name)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Email)
+        @Html.EditorFor(m => m.Email)
+    </div>
+    
+    <input type="submit" value="Save Results" name="save" />
+}
