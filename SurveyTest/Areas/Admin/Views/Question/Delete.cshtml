@@ -1,0 +1,38 @@
+﻿@model SurveyTest.Repository.question_def
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>question_def</legend>
+
+    <div class="display-label">question_def_id</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.question_def_id)
+    </div>
+
+    <div class="display-label">QuestionFormat</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.QuestionFormat.question_format1)
+    </div>
+
+    <div class="display-label">prompt_text</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.prompt_text)
+    </div>
+
+    <div class="display-label">question_details</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.question_details)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

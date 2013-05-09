@@ -104,6 +104,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\StructuremapMvc.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
+    <Compile Include="Areas\Admin\Controllers\QuestionController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SurveyController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SurveyController.cs" />
@@ -229,6 +233,19 @@
       <DependentUpon>Repository.edmx</DependentUpon>
       <LastGenOutput>Repository.cs</LastGenOutput>
     </Content>
+    <Content Include="Areas\Admin\Views\Web.config" />
+    <Content Include="Areas\Admin\Views\Admin\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Question\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Question\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Question\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Question\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Question\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Admin\Views\Survey\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Survey\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Survey\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Survey\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Survey\Delete.cshtml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Repository\Repository.sql" />
     <Content Include="Repository\SurveyData.sql" />
@@ -280,6 +297,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

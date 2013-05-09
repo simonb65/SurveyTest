@@ -1,0 +1,10 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Admin Tasks</h2>
+
+<ul>
+    <li>@Html.ActionLink("Questions", "Index", new { controller = "Question" })</li>
+    <li>@Html.ActionLink("Surveys", "Index", new { controller = "Survey" })</li>
+</ul>
