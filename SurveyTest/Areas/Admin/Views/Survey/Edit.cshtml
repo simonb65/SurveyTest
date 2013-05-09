@@ -38,6 +38,27 @@
             @Html.ValidationMessageFor(model => model.survey_desc)
         </div>
 
+        <div>
+            <table>
+                <tr>
+                    <th>Question</th>
+                    <th>Order</th>
+                    <th>Mandatory</th>
+                </tr>
+                @{ var idx = 0; }
+                @foreach (var sq in Model.SurveyQuestions.OrderBy(x => x.question_order))
+                { 
+                    @Html.Hidden(string.Format("SurveyQuestions[{0}].survey_id",idx++), sq.survey_id);
+                    <tr>
+                        <td>@Html.DisplayText(sq.QuestionDef.question_def_name)</td>
+                        <td>@Html.DisplayText(sq.question_order.ToString())</td>
+                        <td>@Html.DisplayText(sq.mandatory.ToString())</td>
+                    </tr>
+                }
+            </table>
+        </div>
+
+
         <p>
             <input type="submit" value="Save" />
         </p>

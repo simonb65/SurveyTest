@@ -34,6 +34,8 @@ create table question_def
 (
     question_def_id int not null identity(1, 1) primary key,
     question_format_id int not null foreign key references question_format(question_format_id),
+	question_def_name varchar(50) not null unique,
+    question_def_description varchar(max) null,
     prompt_text varchar(255) not null,
     question_details varchar(max) null,
 );
@@ -52,7 +54,6 @@ create table survey_question
     survey_question_id int not null identity(1, 1) primary key,
     survey_id int not null foreign key references survey(survey_id),
     question_def_id int not null foreign key references question_def(question_def_id),
-    question_def_description varchar(max) null,
 
     question_order int not null,
     mandatory bit default 0

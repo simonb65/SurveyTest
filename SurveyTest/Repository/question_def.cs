@@ -23,6 +23,8 @@ namespace SurveyTest.Repository
         public int question_format_id { get; set; }
         public string prompt_text { get; set; }
         public string question_details { get; set; }
+        public string question_def_name { get; set; }
+        public string question_def_description { get; set; }
     
         public virtual ICollection<question_option> QuestionOptions { get; set; }
         public virtual question_format QuestionFormat { get; set; }
