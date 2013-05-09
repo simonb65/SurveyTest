@@ -34,7 +34,7 @@ namespace SurveyTest.Repository
                 Id = survey.survey_id,
                 Name = survey.survey_name,
                 Description = survey.survey_desc,
-                Questions = tableOnly ? null : survey.survey_question.Select(MapSurveyQuestion).ToList()
+                Questions = tableOnly ? null : survey.SurveyQuestions.Select(MapSurveyQuestion).ToList()
             };
         }
 
@@ -44,13 +44,13 @@ namespace SurveyTest.Repository
             {
                 Order = surveyQuestion.question_order,
                 Mandatory = surveyQuestion.mandatory ?? false,
-                QuestionDef = MapQuestionDef(surveyQuestion.question_def)
+                QuestionDef = MapQuestionDef(surveyQuestion.QuestionDef)
             };
         }
 
         public SurveyQuestionDef MapQuestionDef(question_def question)
         {
-            switch (question.question_format.code)
+            switch (question.QuestionFormat.code)
             {
                 case "Header":
                     return new HeaderQuestionDef(question.question_def_id, question.prompt_text);

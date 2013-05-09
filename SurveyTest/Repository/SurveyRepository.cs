@@ -43,7 +43,7 @@ namespace SurveyTest.Models
 
                 var surveyReponse = new survey_response
                 {
-                    survey = survey,
+                    Survey = survey,
                     person_name = submit.Name,
                     email_address = submit.Email,
                     date_taken = DateTime.Now
@@ -55,9 +55,10 @@ namespace SurveyTest.Models
                 {
                     var sa = new survey_answer
                     {
-                        survey_response = surveyReponse,
-                        survey_question = survey.survey_question.First(x => x.question_def_id == sq.QuestionDef.Id),
-                        survey_answer1 = sq.Answer.ToString()
+                        SurveyResponse = surveyReponse,
+                        SurveyQuestion = survey.SurveyQuestions.First(x => x.question_def_id == sq.QuestionDef.Id),
+                        answer = sq.Answer.ToString(),
+                        
                     };
 
                     db.survey_answer.Add(sa);

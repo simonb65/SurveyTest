@@ -16,13 +16,13 @@ namespace SurveyTest.Repository
     {
         public survey()
         {
-            this.survey_question = new HashSet<survey_question>();
+            this.SurveyQuestions = new HashSet<survey_question>();
         }
     
         public int survey_id { get; set; }
         public string survey_name { get; set; }
         public string survey_desc { get; set; }
     
-        public virtual ICollection<survey_question> survey_question { get; set; }
+        public virtual ICollection<survey_question> SurveyQuestions { get; set; }
     }
 }

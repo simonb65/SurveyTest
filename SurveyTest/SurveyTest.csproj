@@ -122,6 +122,9 @@
     <Compile Include="Repository\question_format.cs">
       <DependentUpon>Repository.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repository\question_option.cs">
+      <DependentUpon>Repository.tt</DependentUpon>
+    </Compile>
     <Compile Include="Repository\Repository.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

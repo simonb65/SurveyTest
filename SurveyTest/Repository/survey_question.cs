@@ -16,11 +16,12 @@ namespace SurveyTest.Repository
     {
         public int survey_question_id { get; set; }
         public int survey_id { get; set; }
+        public int question_def_id { get; set; }
+        public string question_def_description { get; set; }
         public int question_order { get; set; }
         public Nullable<bool> mandatory { get; set; }
-        public int question_def_id { get; set; }
     
-        public virtual survey survey { get; set; }
-        public virtual question_def question_def { get; set; }
+        public virtual question_def QuestionDef { get; set; }
+        public virtual survey Survey { get; set; }
     }
 }

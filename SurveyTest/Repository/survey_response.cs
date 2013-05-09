@@ -16,16 +16,17 @@ namespace SurveyTest.Repository
     {
         public survey_response()
         {
-            this.survey_answer = new HashSet<survey_answer>();
+            this.SurveyAnswers = new HashSet<survey_answer>();
         }
     
         public int survey_response_id { get; set; }
+        public int survey_id { get; set; }
         public System.DateTime date_taken { get; set; }
         public string person_name { get; set; }
         public string email_address { get; set; }
-        public int survey_id { get; set; }
+        public Nullable<int> response_total_value { get; set; }
     
-        public virtual ICollection<survey_answer> survey_answer { get; set; }
-        public virtual survey survey { get; set; }
+        public virtual survey Survey { get; set; }
+        public virtual ICollection<survey_answer> SurveyAnswers { get; set; }
     }
 }

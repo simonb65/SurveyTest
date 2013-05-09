@@ -12,19 +12,14 @@ namespace SurveyTest.Repository
     using System;
     using System.Collections.Generic;
     
-    public partial class question_def
+    public partial class question_option
     {
-        public question_def()
-        {
-            this.QuestionOptions = new HashSet<question_option>();
-        }
-    
+        public int question_option_id { get; set; }
         public int question_def_id { get; set; }
-        public int question_format_id { get; set; }
-        public string prompt_text { get; set; }
-        public string question_details { get; set; }
+        public string option_text { get; set; }
+        public string option_description { get; set; }
+        public Nullable<int> option_value { get; set; }
     
-        public virtual ICollection<question_option> QuestionOptions { get; set; }
-        public virtual question_format QuestionFormat { get; set; }
+        public virtual question_def QuestionDef { get; set; }
     }
 }

@@ -17,9 +17,10 @@ namespace SurveyTest.Repository
         public int survey_answer_id { get; set; }
         public int survey_response_id { get; set; }
         public int survey_question_id { get; set; }
-        public string survey_answer1 { get; set; }
+        public string answer { get; set; }
+        public Nullable<int> value { get; set; }
     
-        public virtual survey_response survey_response { get; set; }
-        public virtual survey_question survey_question { get; set; }
+        public virtual survey_response SurveyResponse { get; set; }
+        public virtual survey_question SurveyQuestion { get; set; }
     }
 }
