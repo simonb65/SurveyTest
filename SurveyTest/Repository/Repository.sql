@@ -34,7 +34,7 @@ create table question_def
 (
     question_def_id int not null identity(1, 1) primary key,
     question_format_id int not null foreign key references question_format(question_format_id),
-	question_def_name varchar(50) not null unique,
+    question_def_name varchar(50) not null unique,
     question_def_description varchar(max) null,
     prompt_text varchar(255) not null,
     question_details varchar(max) null,
@@ -66,7 +66,7 @@ create table survey_response
     date_taken datetime not null,
     person_name varchar(100),
     email_address varchar(100),
-	response_total_value int
+    response_total_value int
 )
 
 create table survey_answer
@@ -75,5 +75,5 @@ create table survey_answer
     survey_response_id int not null foreign key references survey_response(survey_response_id),
     survey_question_id int not null foreign key references survey_question(survey_question_id),
     answer varchar(255) not null,
-	value int null
+    value int null
 )

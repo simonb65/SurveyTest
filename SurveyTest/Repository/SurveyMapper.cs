@@ -59,7 +59,7 @@ namespace SurveyTest.Repository
                 case "MultiChoice":
                     return MapMultiChoiceQuestionDef(question);
                 case "YesNo":
-                    return new YesNoSurveyQuestion(question.question_def_id, question.prompt_text);
+                    return new YesNoSurveyQuestionDef(question.question_def_id, question.prompt_text);
                 case "Text":
                     return MapTextQuestionDef(question);
                 case "Int":
@@ -71,7 +71,6 @@ namespace SurveyTest.Repository
                 default:
                     return null;
             }
-
         }
 
         private SurveyQuestionDef MapMultiChoiceQuestionDef(question_def questionDef)

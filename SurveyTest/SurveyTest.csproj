@@ -117,7 +117,18 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\BloodPressureQuestionDef.cs" />
+    <Compile Include="Models\DateQuestionDef.cs" />
+    <Compile Include="Models\HeaderQuestionDef.cs" />
+    <Compile Include="Models\IntQuestionDef.cs" />
+    <Compile Include="Models\MultiChoiceQuestionDef.cs" />
+    <Compile Include="Models\MultiSelectQuestionDef.cs" />
+    <Compile Include="Models\QuestionResult.cs" />
     <Compile Include="Models\SubmitSurveyModel.cs" />
+    <Compile Include="Models\SurveyQuestion.cs" />
+    <Compile Include="Models\SurveyQuestionDef.cs" />
+    <Compile Include="Models\TextQuestionDef.cs" />
+    <Compile Include="Models\YesNoSurveyQuestionDef.cs" />
     <Compile Include="Repository\ISurveyRepository.cs" />
     <Compile Include="Models\SurveyModels.cs" />
     <Compile Include="Repository\question_def.cs">
