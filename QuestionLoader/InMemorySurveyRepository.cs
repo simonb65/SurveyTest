@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace QuestionLoader
 {
-    public class InMemorySurveyRepository : ISurveyRepository
+    public class InMemorySurveyRepository // : ISurveyRepository
     {
         private static QuestionDef[] _questions = new QuestionDef[]
         {

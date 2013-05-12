@@ -130,5 +130,15 @@ namespace SurveyTest.Repository
                 db.SaveChanges();
             }
         }
+
+        public void DeleteQuestion(int id)
+        {
+            using (var db = new Repository.SurveyTestEntities())
+            {
+                question_def question_def = db.question_def.Find(id);
+                db.question_def.Remove(question_def);
+                db.SaveChanges();
+            }
+        }
     }
 }

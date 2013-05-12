@@ -258,6 +258,7 @@
     <Content Include="Areas\Admin\Views\Survey\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\Question\EditorTemplates\HeaderQuestionDef.cshtml" />
     <Content Include="Areas\Admin\Views\Question\EditorTemplates\DateQuestionDef.cshtml" />
+    <Content Include="Areas\Admin\Views\Question\EditorTemplates\MultiChoiceQuestionDef.cshtml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Repository\Repository.sql" />
     <Content Include="Repository\SurveyData.sql" />

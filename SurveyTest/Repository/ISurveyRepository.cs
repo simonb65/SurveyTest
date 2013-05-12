@@ -19,5 +19,7 @@ namespace SurveyTest.Repository
         void UpdateQuestionDef(QuestionDef questionDef);
 
         QuestionDef GetQuestion(int id);
+
+        void DeleteQuestion(int id);
     }
 }
