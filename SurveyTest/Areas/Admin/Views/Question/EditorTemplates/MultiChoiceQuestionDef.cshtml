@@ -1,7 +1,28 @@
 ﻿@model SurveyTest.Models.MultiChoiceQuestionDef
 
-Multi Choice
+<br />
+<table id="OptTable">
+    <tr>
+        <th>Option</th>
+        <th>Value</th>
+    </tr>
 
+    @for (var idx = 0; idx < Model.Questions.Count; idx++)
+    {
+        <tr>
+            <td>@Html.EditorFor(m => m.Questions[idx].Text)</td>
+            <td>@Html.EditorFor(m => m.Questions[idx].Value)</td>
+            <td></td>
+        </tr>
+    }
+</table>
+<br />
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.Label("NewOptTxt", "New Option")
+    @Html.TextBox("NewOptTxt")
+
+    @Html.Label("NewOptValue", "Value")
+    @Html.TextBox("NewOptValue")
+
+    <input id="AddOpt" type="button" value="Add Option" />
 </div>

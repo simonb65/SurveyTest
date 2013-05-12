@@ -77,6 +77,18 @@ namespace SurveyTest.Areas.Admin.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public ActionResult AddOpt(int id, string text, int value)
+        {
+            var qd = (MultiChoiceQuestionDef)_repo.GetQuestion(id);
+
+            qd.Questions.Add(new MultiChoiceQuestionDef.QuestionOption { Text = text, Value = value, Order = qd.Questions.Count + 1 });
+
+            _repo.UpdateQuestionDef(qd);
+
+            return Json(new { result = true });
+        }
+
         [HttpGet]
         public ActionResult Delete(int id)
         {

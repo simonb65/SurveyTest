@@ -1,0 +1,22 @@
+﻿@model SurveyTest.Models.YesNoSurveyQuestionDef
+
+<div>
+    <div class="editor-label">
+        @Html.LabelFor(m => m.YesOptionValue, "Yes option value")
+    </div>
+
+    <div class="editor-label">
+        @Html.TextBoxFor(m => m.YesOptionValue)
+        @Html.ValidationMessageFor(m => m.YesOptionValue)
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(m => m.NoOptionValue, "No option value")
+    </div>
+
+    <div class="editor-label">
+        @Html.TextBoxFor(m => m.NoOptionValue)
+        @Html.ValidationMessageFor(m => m.NoOptionValue)
+    </div>
+</div>
+

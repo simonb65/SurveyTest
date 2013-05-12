@@ -7,7 +7,11 @@ namespace SurveyTest.Models
     {
         public YesNoSurveyQuestionDef()
         {
-            QuestionTexts = new[] { "Yes", "No" };
+            Questions = new[]
+            { 
+                new QuestionOption { Text= "Yes" },
+                new QuestionOption { Text= "No" },
+            };
         }
 
         public override string FormatType { get { return "YesNo"; } }
@@ -24,6 +28,22 @@ namespace SurveyTest.Models
             }
 
             return null;
+        }
+
+        public int YesOptionValue { get; set; }
+        public int NoOptionValue { get; set; }
+
+        public override void BindFields(ModelBindingContext bindingContext)
+        {
+            base.BindFields(bindingContext);
+
+            int tmpInt;
+
+            if (TryGetValue(bindingContext.ValueProvider, "YesOptionValue", out tmpInt))
+                YesOptionValue = tmpInt;
+
+            if (TryGetValue(bindingContext.ValueProvider, "NoOptionValue", out tmpInt))
+                NoOptionValue = tmpInt;
         }
     }
 }

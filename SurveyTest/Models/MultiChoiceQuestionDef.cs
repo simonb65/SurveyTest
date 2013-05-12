@@ -1,12 +1,21 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using System.Xml.Linq;
 
 namespace SurveyTest.Models
 {
     public class MultiChoiceQuestionDef : QuestionDef
     {
-        public IList<string> QuestionTexts { get; set; }
+        public class QuestionOption
+        {
+            public string Text { get; set; }
+            public int Order { get; set; }
+            public int Value { get; set; }
+        }
+
+        public IList<QuestionOption> Questions { get; set; }
         public int DefaultIdx { get; set; }
 
         public MultiChoiceQuestionDef()
@@ -27,10 +36,41 @@ namespace SurveyTest.Models
             if (TryGetValue(provider, GroupName, out value))
             {
                 var idx = int.Parse(value.Substring(ResultPrefix.Length));
-                return new QuestionResult(this) { Answer = QuestionTexts[idx] };
+                var answer = Questions[idx];
+                return new QuestionResult(this) { Answer = answer.Text, Value = answer.Value };
             }
 
             return null;
+        }
+         
+        public override string SerialiseDetails()
+        {
+            return "<opts>" + 
+                string.Join(
+                    string.Empty,
+                    Questions.Select(t => string.Format("<opt value=\"{0}\" order=\"{1}\">{2}</opt>", t.Value, t.Order, t.Text))) + 
+                "</opts>";
+        }
+
+        public override void DeserialiseDetails(string details)
+        {
+            if (details == null)
+            {
+                Questions = new List<QuestionOption>();
+            }
+            else
+            {
+                var doc = XDocument.Parse(details);
+                Questions = doc.Descendants("opt")
+                    .Select(x =>
+                        new QuestionOption
+                        {
+                            Text = x.Value,
+                            Value = int.Parse(x.Attribute("value").Value),
+                            Order = int.Parse(x.Attribute("order").Value)
+                        })
+                    .ToList();
+            }
         }
     }
 }

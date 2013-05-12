@@ -20,6 +20,8 @@ namespace SurveyTest.Models
             Id = question.question_def_id;
             Name = question.question_def_name;
             PromptText = question.prompt_text;
+
+            DeserialiseDetails(question.question_details);
         }
 
         public virtual void BindFields(ModelBindingContext bindingContext)
@@ -47,6 +49,10 @@ namespace SurveyTest.Models
         public virtual string SerialiseDetails()
         {
             return null;
+        }
+
+        public virtual void DeserialiseDetails(string details)
+        {
         }
 
         public abstract QuestionResult GetResult(IValueProvider provider);

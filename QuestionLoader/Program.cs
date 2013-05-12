@@ -54,7 +54,7 @@ namespace QuestionLoader
                             formatId = DbConst.DateFormatId;
                             break;
                         case "MultiChoiceQuestionDef":
-                            serialisedData = MapMultiChoiceSerialisedData(sq.QuestionDef);
+                            // serialisedData = MapMultiChoiceSerialisedData(sq.QuestionDef);
                             formatId = DbConst.MultiChoiceFormatId;
                             break;
                         case "YesNoSurveyQuestion":
@@ -70,7 +70,7 @@ namespace QuestionLoader
                             break;
                         case "MultiSelectQuestionDef":
                             formatId = DbConst.MultiSelectFormatId;
-                            serialisedData = MapMultiSelectSerialisedData(sq.QuestionDef);
+                            // serialisedData = MapMultiSelectSerialisedData(sq.QuestionDef);
                             break;
                         case "BloodPressureQuestionDef":
                             formatId = DbConst.BloodPressureFormatId;
@@ -93,17 +93,6 @@ namespace QuestionLoader
         {
             var tqd = (TextQuestionDef)sqd;
             return string.Format("<opt><qt>{0}</qt><qs>{1}</qs><sl>{2}</sl></opt>", tqd.QuestionText, tqd.QuestionSuffix, tqd.SingleLine);
-        }
-
-        public static string MapMultiChoiceSerialisedData(QuestionDef sqd)
-        { 
-            var mcqd = (MultiChoiceQuestionDef)sqd;
-            return "<opts>" + string.Join("", mcqd.QuestionTexts.Select(t => "<opt>" + t + "</opt>")) + "</opts>";
-        }
-        public static string MapMultiSelectSerialisedData(QuestionDef sqd)
-        { 
-            var msqd = (MultiSelectQuestionDef)sqd;
-            return "<opts>" + string.Join("", msqd.QuestionTexts.Select(t => "<opt>" + t + "</opt>")) + "</opts>";
         }
     }
 }

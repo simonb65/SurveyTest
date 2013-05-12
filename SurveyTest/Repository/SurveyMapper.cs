@@ -70,8 +70,8 @@ namespace SurveyTest.Repository
             return new MultiChoiceQuestionDef
             {
                 Id = questionDef.question_def_id,
-                PromptText = questionDef.prompt_text,
-                QuestionTexts = questions
+                PromptText = questionDef.prompt_text
+                // Questions = questions
             };
         }
 
@@ -132,8 +132,8 @@ namespace SurveyTest.Repository
             return new MultiSelectQuestionDef
             {
                 Id = question.question_def_id,
-                PromptText = question.prompt_text,
-                QuestionTexts = questions
+                PromptText = question.prompt_text
+                // QuestionTexts = questions
             };
         }
     }

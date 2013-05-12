@@ -21,15 +21,19 @@ namespace SurveyTest.Models
         public override QuestionResult GetResult(IValueProvider provider)
         {
             var results = new List<string>();
-            for (var idx = 0; idx < QuestionTexts.Count; idx++)
+            var resultsValue = 0;
+            for (var idx = 0; idx < Questions.Count; idx++)
             {
                 if (QuestionSelected(provider, idx))
-                    results.Add(QuestionTexts[idx]);
+                {
+                    results.Add(Questions[idx].Text);
+                    resultsValue += Questions[idx].Value;
+                }
             }
 
             var answer = string.Join("|", results);
 
-            return (results.Count > 0) ? new QuestionResult(this) { Answer = answer } : null;
+            return (results.Count > 0) ? new QuestionResult(this) { Answer = answer, Value = resultsValue } : null;
         }
     }
 }
