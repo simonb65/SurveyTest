@@ -1,7 +1,6 @@
-﻿@model SurveyTest.Repository.question_def
-
+﻿@model SurveyTest.Areas.Admin.Models.CreateQuestionModel
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Create new Question";
 }
 
 <h2>Create</h2>
@@ -12,38 +11,30 @@
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
     <fieldset>
-        <legend>question_def</legend>
+        <legend>Question Def</legend>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.question_def_id, "ID")
+            @Html.LabelFor(model => model.Name, "Name")
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => model.question_def_id, new { disabled = "disabled", @readonly = "readonly"} )
-            @Html.ValidationMessageFor(model => model.question_def_id)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.question_format_id, "Question Type")
-        </div>
-        <div class="editor-field">
-            @Html.DropDownList("question_format_id", String.Empty)
-            @Html.ValidationMessageFor(model => model.question_format_id)
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.prompt_text, "Prompt")
+            @Html.LabelFor(model => model.FormatId, "Question Format Type")
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.prompt_text)
-            @Html.ValidationMessageFor(model => model.prompt_text)
+            @Html.DropDownListFor(model => model.FormatId,  (SelectList)ViewBag.QuestionFormats)
+            @Html.ValidationMessageFor(model => model.FormatId)
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.question_details, "Details ...")
+            @Html.LabelFor(model => model.PromptText, "Prompt Text")
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.question_details)
-            @Html.ValidationMessageFor(model => model.question_details)
+            @Html.EditorFor(model => model.PromptText)
+            @Html.ValidationMessageFor(model => model.PromptText)
         </div>
 
         <p>

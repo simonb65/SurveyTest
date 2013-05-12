@@ -1,7 +1,6 @@
-﻿@model IEnumerable<SurveyTest.Repository.question_def>
-
+﻿@model IList<SurveyTest.Models.QuestionDef>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Questions";
 }
 
 <h2>Index</h2>
@@ -11,44 +10,26 @@
 </p>
 <table>
     <tr>
-        <th>
-            ID
-        </th>
-        <th>
-            QuestionFormat
-        </th>
-        <th>
-            Prompt
-        </th>
-        <th>
-            Question Details
-        </th>
+        <th>ID</th>
+        <th>Name</th>
+        <th>QuestionFormat</th>
+        <th>Prompt</th>
         <th></th>
     </tr>
-
 @foreach (var item in Model) 
 {
     <tr>
+        <td>@Html.DisplayFor(modelItem => item.Id)</td>
+        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+        <td>@Html.DisplayFor(modelItem => item.FormatType)</td>
+        <td>@Html.DisplayFor(modelItem => item.PromptText)</td>
+
         <td>
-            @Html.DisplayFor(modelItem => item.question_def_id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.QuestionFormat.question_format1)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.prompt_text)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.question_details)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.question_def_id }) |
-            @Html.ActionLink("Details", "Details", new { id = item.question_def_id }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.question_def_id }) 
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id }) 
         </td>
     </tr>
 }
-
 </table>
 
 <p>

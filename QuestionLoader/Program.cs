@@ -89,18 +89,18 @@ namespace QuestionLoader
             }
         }
 
-        private static string MapTextSerialisedData(SurveyQuestionDef sqd)
+        private static string MapTextSerialisedData(QuestionDef sqd)
         {
             var tqd = (TextQuestionDef)sqd;
             return string.Format("<opt><qt>{0}</qt><qs>{1}</qs><sl>{2}</sl></opt>", tqd.QuestionText, tqd.QuestionSuffix, tqd.SingleLine);
         }
 
-        public static string MapMultiChoiceSerialisedData(SurveyQuestionDef sqd)
+        public static string MapMultiChoiceSerialisedData(QuestionDef sqd)
         { 
             var mcqd = (MultiChoiceQuestionDef)sqd;
             return "<opts>" + string.Join("", mcqd.QuestionTexts.Select(t => "<opt>" + t + "</opt>")) + "</opts>";
         }
-        public static string MapMultiSelectSerialisedData(SurveyQuestionDef sqd)
+        public static string MapMultiSelectSerialisedData(QuestionDef sqd)
         { 
             var msqd = (MultiSelectQuestionDef)sqd;
             return "<opts>" + string.Join("", msqd.QuestionTexts.Select(t => "<opt>" + t + "</opt>")) + "</opts>";

@@ -11,6 +11,11 @@ namespace SurveyTest.Areas.Admin.Controllers
 { 
     public class SurveyController : Controller
     {
+        public SurveyController()
+        {
+
+        }
+
         private SurveyTestEntities db = new SurveyTestEntities();
 
         //

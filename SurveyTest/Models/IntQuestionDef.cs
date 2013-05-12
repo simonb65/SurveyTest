@@ -5,12 +5,7 @@ namespace SurveyTest.Models
 {
     public class IntQuestionDef : TextQuestionDef
     {
-        public IntQuestionDef(int id, string promptText, bool singleLine = true)
-            : base(id, promptText, singleLine)
-        {
-        }
-
-        public override string FormatType { get { return GetType().BaseType.Name; } }
+        public override string FormatType { get { return "Int"; } }
 
         public override QuestionResult GetResult(IValueProvider provider)
         {

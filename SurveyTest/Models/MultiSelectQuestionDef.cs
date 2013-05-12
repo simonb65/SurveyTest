@@ -8,11 +8,8 @@ namespace SurveyTest.Models
 {
     public class MultiSelectQuestionDef : MultiChoiceQuestionDef
     {
-        public MultiSelectQuestionDef(int id, string promptText, IList<string> questionTexts)
-            : base(id, promptText, questionTexts)
-        {
-        }
-
+        public override string FormatType { get { return "MultiSelect"; } }
+        
         private bool QuestionSelected(IValueProvider provider, int idx)
         {
             var valResult = provider.GetValue(ResultName(idx));

@@ -4,8 +4,8 @@ namespace SurveyTest.Models
 {
     public class QuestionResult
     {
-        public SurveyQuestionDef Question { get; private set; }
-        public QuestionResult(SurveyQuestionDef question)
+        public QuestionDef Question { get; private set; }
+        public QuestionResult(QuestionDef question)
         {
             Question = question;
         }

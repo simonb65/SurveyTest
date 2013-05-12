@@ -1,16 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+
 using SurveyTest.Repository;
+using SurveyTest.Models;
+using SurveyTest.Areas.Admin.Models;
 
 namespace SurveyTest.Areas.Admin.Controllers
 { 
     public class QuestionController : Controller
     {
+        private readonly ISurveyRepository _repo;
+
+        public QuestionController(ISurveyRepository repo)
+        {
+            _repo = repo;
+        }
+        
         private SurveyTestEntities db = new SurveyTestEntities();
 
         //
@@ -18,8 +26,11 @@ namespace SurveyTest.Areas.Admin.Controllers
 
         public ViewResult Index()
         {
-            var question_def = db.question_def.Include(q => q.QuestionFormat);
-            return View(question_def.ToList());
+            //var question_def = db.question_def.Include(q => q.QuestionFormat);
+            //return View(question_def.ToList());
+
+            var questions = _repo.ListQuestions();
+            return View(questions);
         }
 
         //
@@ -33,28 +44,35 @@ namespace SurveyTest.Areas.Admin.Controllers
 
         //
         // GET: /Admin/Question/Create
-
+        [HttpGet]
         public ActionResult Create()
         {
-            ViewBag.question_format_id = new SelectList(db.question_format, "question_format_id", "question_format1");
-            return View();
+            LoadQuestionFormats();
+            var model = new CreateQuestionModel();
+
+            return View(model);
         } 
 
         //
         // POST: /Admin/Question/Create
+        private void LoadQuestionFormats()
+        {
+            var formats = _repo.ListQuestionFormats();
+            ViewBag.QuestionFormats = new SelectList(formats, "item1", "item2");
+        }
 
         [HttpPost]
-        public ActionResult Create(question_def question_def)
+        public ActionResult Create(CreateQuestionModel model)
         {
             if (ModelState.IsValid)
             {
-                db.question_def.Add(question_def);
-                db.SaveChanges();
+                _repo.SaveNewQuestionDef(model.Name, model.FormatId, model.PromptText);
                 return RedirectToAction("Index");  
             }
 
-            ViewBag.question_format_id = new SelectList(db.question_format, "question_format_id", "question_format1", question_def.question_format_id);
-            return View(question_def);
+            LoadQuestionFormats();
+
+            return View(model);
         }
         
         //
@@ -62,30 +80,24 @@ namespace SurveyTest.Areas.Admin.Controllers
  
         public ActionResult Edit(int id)
         {
-            question_def question_def = db.question_def.Find(id);
-            ViewBag.question_format_id = new SelectList(db.question_format, "question_format_id", "question_format1", question_def.question_format_id);
-            return View(question_def);
+            var qd = _repo.GetQuestion(id);
+            LoadQuestionFormats();
+       
+            return View(qd);
         }
 
-        //
-        // POST: /Admin/Question/Edit/5
-
         [HttpPost]
-        public ActionResult Edit(question_def question_def)
+        public ActionResult Edit(QuestionDef model)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(question_def).State = EntityState.Modified;
-                db.SaveChanges();
+                _repo.UpdateQuestionDef(model);
                 return RedirectToAction("Index");
             }
-            ViewBag.question_format_id = new SelectList(db.question_format, "question_format_id", "question_format1", question_def.question_format_id);
-            return View(question_def);
+
+            return View(model);
         }
 
-        //
-        // GET: /Admin/Question/Delete/5
- 
         public ActionResult Delete(int id)
         {
             question_def question_def = db.question_def.Find(id);

@@ -29,11 +29,18 @@ namespace SurveyTest
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional }, // Parameter defaults
                 new[] { "SurveyTest.Controllers" }
             );
+        }
 
+        public static void InitialIoc()
+        {
+            var container = IoC.Initialize();
+            DependencyResolver.SetResolver(new SmDependencyResolver(container));
         }
 
         protected void Application_Start()
         {
+            InitialIoc();
+
             AreaRegistration.RegisterAllAreas();
 
             // Use LocalDB for Entity Framework by default
@@ -42,7 +49,10 @@ namespace SurveyTest
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
 
-            ModelBinders.Binders.Add(typeof(SurveyTest.Models.SurveyModel), new SurveyModelBinder());
+            var questionDefModelBinger = DependencyResolver.Current.GetService<SurveyTest.Areas.Admin.Models.QuestionDefModelBinder>();
+            ModelBinders.Binders.Add(typeof(SurveyTest.Models.QuestionDef), questionDefModelBinger);
+
+            ModelBinders.Binders.Add(typeof(SurveyTest.Models.SurveyModel), new SurveyTest.Models.SurveyModelBinder());
         }
     }
 }

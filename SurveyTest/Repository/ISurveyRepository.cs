@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SurveyTest.Models
+using SurveyTest.Models;
+
+namespace SurveyTest.Repository
 {
     public interface ISurveyRepository
     {
@@ -9,5 +11,13 @@ namespace SurveyTest.Models
         SurveyModel GetSurvey(int surveyId);
 
         void StoreSurveyResult(SubmitSurveyModel submit, SurveyModel survey);
+
+        IList<QuestionDef> ListQuestions();
+        IList<Tuple<int, string>> ListQuestionFormats();
+
+        void SaveNewQuestionDef(string name, int formatTypeId, string prompt);
+        void UpdateQuestionDef(QuestionDef questionDef);
+
+        QuestionDef GetQuestion(int id);
     }
 }

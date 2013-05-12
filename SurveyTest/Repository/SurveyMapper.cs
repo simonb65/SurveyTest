@@ -1,10 +1,9 @@
-﻿using SurveyTest.Models;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Web;
-using System.Xml;
 using System.Xml.Linq;
+using System.Web.Mvc;
+
+using SurveyTest.Models;
 
 namespace SurveyTest.Repository
 {
@@ -12,10 +11,17 @@ namespace SurveyTest.Repository
     {
         SurveyModel MapSurvey(Repository.survey survey);
         SurveyModel MapSurveyAndQuestions(Repository.survey survey);
+
+        QuestionDef MapQuestionDef(question_def question);
     }
 
     public class SurveyMapper : ISurveyMapper
     {
+        private readonly IQuestionDefActivator _qda;
+        public SurveyMapper(IQuestionDefActivator qda)
+        {
+            _qda = qda;
+        }
 
         public SurveyModel MapSurvey(Repository.survey survey)
         {
@@ -48,42 +54,30 @@ namespace SurveyTest.Repository
             };
         }
 
-        public SurveyQuestionDef MapQuestionDef(question_def question)
+        public QuestionDef MapQuestionDef(question_def question)
         {
-            switch (question.QuestionFormat.code)
-            {
-                case "Header":
-                    return new HeaderQuestionDef(question.question_def_id, question.prompt_text);
-                case "Date":
-                    return new DateQuestionDef(question.question_def_id, question.prompt_text);
-                case "MultiChoice":
-                    return MapMultiChoiceQuestionDef(question);
-                case "YesNo":
-                    return new YesNoSurveyQuestionDef(question.question_def_id, question.prompt_text);
-                case "Text":
-                    return MapTextQuestionDef(question);
-                case "Int":
-                    return MapIntQuestionDef(question);
-                case "MultiSelect":
-                    return MapMultiSelectQuestionDef(question);
-                case "BloodPressure":
-                    return new BloodPressureQuestionDef(question.question_def_id);
-                default:
-                    return null;
-            }
+            QuestionDef qd = _qda.CreateQuestionDef(question.QuestionFormat.code);
+            qd.MapFields(question);
+
+            return qd;
         }
 
-        private SurveyQuestionDef MapMultiChoiceQuestionDef(question_def questionDef)
+        private QuestionDef MapMultiChoiceQuestionDef(question_def questionDef)
         {
             var doc = XDocument.Parse(questionDef.question_details);
             var questions = doc.Descendants("opt").Select(x => x.Value).ToList();
 
-            return new MultiChoiceQuestionDef(questionDef.question_def_id, questionDef.prompt_text, questions);
+            return new MultiChoiceQuestionDef
+            {
+                Id = questionDef.question_def_id,
+                PromptText = questionDef.prompt_text,
+                QuestionTexts = questions
+            };
         }
 
-        private SurveyQuestionDef MapIntQuestionDef(question_def questionDef)
+        private QuestionDef MapIntQuestionDef(question_def question)
         {
-            var doc = XDocument.Parse(questionDef.question_details);
+            var doc = XDocument.Parse(question.question_details);
 
             var el = doc.Element("qt");
             var questionText = el != null ? el.Value : null;
@@ -96,16 +90,18 @@ namespace SurveyTest.Repository
             if ((el == null) || !bool.TryParse(el.Value, out sl))
                 sl = true;
 
-            return new IntQuestionDef(questionDef.question_def_id, questionDef.prompt_text, sl)
+            return new IntQuestionDef
             {
+                Id = question.question_def_id,
+                PromptText = question.prompt_text,
                 QuestionText = questionText,
                 QuestionSuffix = questionSuffix
             };
         }
 
-        private SurveyQuestionDef MapTextQuestionDef(question_def questionDef)
+        private QuestionDef MapTextQuestionDef(question_def question)
         {
-            var doc = XDocument.Parse(questionDef.question_details);
+            var doc = XDocument.Parse(question.question_details);
 
             var el = doc.Element("qt");
             var questionText = el != null ? el.Value : null;
@@ -118,19 +114,27 @@ namespace SurveyTest.Repository
             if ((el == null) || !bool.TryParse(el.Value, out sl))
                 sl = true;
 
-            return new TextQuestionDef(questionDef.question_def_id, questionDef.prompt_text, sl)
+            return new TextQuestionDef
             {
+                Id = question.question_def_id,
+                PromptText = question.prompt_text,
+                SingleLine = sl,
                 QuestionText = questionText,
                 QuestionSuffix = questionSuffix
             };
         }
         
-        private SurveyQuestionDef MapMultiSelectQuestionDef(question_def question)
+        private QuestionDef MapMultiSelectQuestionDef(question_def question)
         {
             var doc = XDocument.Parse(question.question_details);
             var questions = doc.Descendants("opt").Select(x => x.Value).ToList();
 
-            return new MultiSelectQuestionDef(question.question_def_id, question.prompt_text, questions);
+            return new MultiSelectQuestionDef
+            {
+                Id = question.question_def_id,
+                PromptText = question.prompt_text,
+                QuestionTexts = questions
+            };
         }
     }
 }

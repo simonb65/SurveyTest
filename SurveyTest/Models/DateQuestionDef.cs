@@ -3,16 +3,13 @@ using System.Web.Mvc;
 
 namespace SurveyTest.Models
 {
-    public class DateQuestionDef : SurveyQuestionDef
+    public class DateQuestionDef : QuestionDef
     {
-        public DateQuestionDef(int id, string promptText)
-            : base(id, promptText)
-        {
-        }
-
         public string DayName { get { return QuestionName + "_Day"; } }
         public string MonthName { get { return QuestionName + "_Month"; } }
         public string YearName { get { return QuestionName + "_Year"; } }
+
+        public override string FormatType { get { return "Date"; } }
 
         public override QuestionResult GetResult(IValueProvider provider)
         {

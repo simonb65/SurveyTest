@@ -5,11 +5,12 @@ namespace SurveyTest.Models
 {
     public class YesNoSurveyQuestionDef : MultiChoiceQuestionDef
     {
-        public YesNoSurveyQuestionDef(int id, string promptText)
-            : base(id, promptText, new[] { "Yes", "No" })
+        public YesNoSurveyQuestionDef()
         {
+            QuestionTexts = new[] { "Yes", "No" };
         }
-        public override string FormatType { get { return GetType().BaseType.Name; } }
+
+        public override string FormatType { get { return "YesNo"; } }
 
         public override QuestionResult GetResult(IValueProvider provider)
         {

@@ -7,7 +7,7 @@ namespace SurveyTest.Models
 {
     public class SurveyQuestion
     {
-        public SurveyQuestionDef QuestionDef { get; set; }
+        public QuestionDef QuestionDef { get; set; }
         public int Order { get; set; }
         public bool Mandatory { get; set; }
         public QuestionResult Answer { get; set; }

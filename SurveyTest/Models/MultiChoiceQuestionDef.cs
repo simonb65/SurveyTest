@@ -4,18 +4,18 @@ using System.Web.Mvc;
 
 namespace SurveyTest.Models
 {
-    public class MultiChoiceQuestionDef : SurveyQuestionDef
+    public class MultiChoiceQuestionDef : QuestionDef
     {
-        public IList<string> QuestionTexts { get; protected set; }
-        public int DefaultIdx { get; protected set; }
+        public IList<string> QuestionTexts { get; set; }
+        public int DefaultIdx { get; set; }
 
-        public MultiChoiceQuestionDef(int id, string promptText, IList<string> questionTexts, int defaultIdx = -1)
-            : base(id, promptText)
+        public MultiChoiceQuestionDef()
         {
-            QuestionTexts = questionTexts;
-            DefaultIdx = defaultIdx;
+            DefaultIdx = -1;
         }
 
+        public override string FormatType { get { return "MultiChoice"; } }
+        
         public string GroupName { get { return QuestionName + "_G"; } }
 
         protected string ResultPrefix { get { return QuestionName + "_R"; } }

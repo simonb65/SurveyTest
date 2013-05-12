@@ -3,16 +3,13 @@ using System.Web.Mvc;
 
 namespace SurveyTest.Models
 {
-    public class BloodPressureQuestionDef : SurveyQuestionDef
+    public class BloodPressureQuestionDef : QuestionDef
     {
-        public BloodPressureQuestionDef(int id)
-            : base(id, "Blood Pressure")
-        {
-        }
-
         public string SysName { get { return QuestionName + "Sys"; } }
         public string DiaName { get { return QuestionName + "Dia"; } }
 
+        public override string FormatType { get { return "BloodPressure"; } }
+        
         public override QuestionResult GetResult(IValueProvider provider)
         {
             int sysPress;
