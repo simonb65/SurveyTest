@@ -60,25 +60,26 @@
 </div>
 
 <script  type="text/javascript">
-    $(document).ready(function()
-    {
+    $(document).ready(function () {
         $('#AddOpt').click(function () {
             var optTxt = $('#NewOptTxt');
             var optVal = $('#NewOptValue');
-
             $.post(
                 '@Url.Action("AddOpt", new { id = Model.Id })',
                 { text: optTxt.val(), value: optVal.val() },
                 function () {
-                    AddOpt(optTxt, optVal);
+                    location.reload(true);
                 });
         });
-    })
+    });
 
-    function AddOpt(optTxt, optVal) {
-        optTxt.val('');
-        optVal.val('');
+    function MoveOpt(optId, direction) {
+        alert('move ' + optId + ' -> ' + direction);
+        location.reload(true);
+    };
 
-        $('#OptTable tbody').append('<tr><td>' + optTxt.val() + '</td><td>' + optVal.val() + '</td></tr>');
-    }
+    function RemoveOpt(optId) {
+        alert('remove ' + optId);
+        location.reload(true);
+    };
 </script>
