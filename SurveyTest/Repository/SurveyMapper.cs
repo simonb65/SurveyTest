@@ -57,73 +57,15 @@ namespace SurveyTest.Repository
         public QuestionDef MapQuestionDef(question_def question)
         {
             QuestionDef qd = _qda.CreateQuestionDef(question.QuestionFormat.code);
-            qd.MapFields(question);
+
+            qd.Id = question.question_def_id;
+            qd.Name = question.question_def_name;
+            qd.PromptText = question.prompt_text;
+            qd.DeserialiseDetails(question.question_details);
 
             return qd;
         }
-
-        private QuestionDef MapMultiChoiceQuestionDef(question_def questionDef)
-        {
-            var doc = XDocument.Parse(questionDef.question_details);
-            var questions = doc.Descendants("opt").Select(x => x.Value).ToList();
-
-            return new MultiChoiceQuestionDef
-            {
-                Id = questionDef.question_def_id,
-                PromptText = questionDef.prompt_text
-                // Questions = questions
-            };
-        }
-
-        private QuestionDef MapIntQuestionDef(question_def question)
-        {
-            var doc = XDocument.Parse(question.question_details);
-
-            var el = doc.Element("qt");
-            var questionText = el != null ? el.Value : null;
-
-            el = doc.Element("qs");
-            var questionSuffix = el != null ? el.Value : null;
-
-            el = doc.Element("sl");
-            bool sl;
-            if ((el == null) || !bool.TryParse(el.Value, out sl))
-                sl = true;
-
-            return new IntQuestionDef
-            {
-                Id = question.question_def_id,
-                PromptText = question.prompt_text,
-                QuestionText = questionText,
-                QuestionSuffix = questionSuffix
-            };
-        }
-
-        private QuestionDef MapTextQuestionDef(question_def question)
-        {
-            var doc = XDocument.Parse(question.question_details);
-
-            var el = doc.Element("qt");
-            var questionText = el != null ? el.Value : null;
-
-            el = doc.Element("qs");
-            var questionSuffix = el != null ? el.Value : null;
-
-            el = doc.Element("sl");
-            bool sl;
-            if ((el == null) || !bool.TryParse(el.Value, out sl))
-                sl = true;
-
-            return new TextQuestionDef
-            {
-                Id = question.question_def_id,
-                PromptText = question.prompt_text,
-                SingleLine = sl,
-                QuestionText = questionText,
-                QuestionSuffix = questionSuffix
-            };
-        }
-        
+       
         private QuestionDef MapMultiSelectQuestionDef(question_def question)
         {
             var doc = XDocument.Parse(question.question_details);

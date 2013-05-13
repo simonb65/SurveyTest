@@ -72,8 +72,7 @@
         $.post('@Url.Action("MoveOption", new { id = Model.Id })', { optIdx: optIdx, direction: direction }, function () { location.reload(true); });
     };
 
-    function RemoveOpt(optId) {
-        alert('remove ' + optId);
-        location.reload(true);
+    function RemoveOption(optIdx) {
+        $.post('@Url.Action("RemoveOption", new { id = Model.Id })', { optIdx: optIdx }, function () { location.reload(true); });
     };
 </script>

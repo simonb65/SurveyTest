@@ -118,6 +118,18 @@ namespace SurveyTest.Areas.Admin.Controllers
             return Json(new { result = true });
         }
 
+        [HttpPost]
+        public ActionResult RemoveOption(int id, int optIdx)
+        {
+            var qd = (MultiChoiceQuestionDef)_repo.GetQuestion(id);
+
+            qd.Questions.RemoveAt(optIdx);
+
+            _repo.UpdateQuestionDef(qd);
+
+            return Json(new { result = true });
+        }
+
         [HttpGet]
         public ActionResult Delete(int id)
         {

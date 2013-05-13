@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Xml.Linq;
+using System.Globalization;
 
 namespace SurveyTest.Models
 {
@@ -48,7 +49,9 @@ namespace SurveyTest.Models
             return "<opts>" + 
                 string.Join(
                     string.Empty,
-                    Questions.Select(t => string.Format("<opt value=\"{0}\" order=\"{1}\">{2}</opt>", t.Value, t.Order, t.Text))) + 
+                    Questions
+                        .OrderBy(x => x.Order)
+                        .Select(t => string.Format("<opt value=\"{0}\">{1}</opt>", t.Value, t.Text))) + 
                 "</opts>";
         }
 
@@ -62,16 +65,41 @@ namespace SurveyTest.Models
             {
                 var doc = XDocument.Parse(details);
                 Questions = doc.Descendants("opt")
-                    .Select(x =>
+                    .Select((x, idx) =>
                         new QuestionOption
                         {
                             Text = x.Value,
                             Value = int.Parse(x.Attribute("value").Value),
-                            Order = int.Parse(x.Attribute("order").Value)
+                            Order = idx
                         })
                     .OrderBy(x => x.Order)
                     .ToList();
             }
+        }
+
+        public override void BindFields(ModelBindingContext bindingContext)
+        {
+            base.BindFields(bindingContext);
+
+            // Get Questions
+            var questions = new List<QuestionOption>();
+
+            for (var idx = 0; ; idx++)
+            {
+                var textFieldName = string.Format("Questions[{0}].Text", idx);
+                string optTxt;
+                if (!TryGetValue(bindingContext.ValueProvider, textFieldName, out optTxt))
+                    break;
+
+                var valueFieldName = string.Format("Questions[{0}].Value", idx);
+                int optValue;
+                if (!TryGetValue(bindingContext.ValueProvider, valueFieldName, out optValue))
+                    optValue = 0;
+
+                questions.Add(new QuestionOption { Text = optTxt, Value = optValue, Order = idx });
+            }
+
+            Questions = questions;
         }
     }
 }

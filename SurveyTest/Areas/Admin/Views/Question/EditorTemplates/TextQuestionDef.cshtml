@@ -1,0 +1,25 @@
+﻿@model SurveyTest.Models.TextQuestionDef
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.QuestionText)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.QuestionText)
+            @Html.ValidationMessageFor(model => model.QuestionText)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SingleLine)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SingleLine)
+            @Html.ValidationMessageFor(model => model.SingleLine)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.QuestionSuffix)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.QuestionSuffix)
+            @Html.ValidationMessageFor(model => model.QuestionSuffix)
+        </div>

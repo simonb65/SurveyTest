@@ -15,15 +15,6 @@ namespace SurveyTest.Models
         public virtual string QuestionName { get { return "Q" + Id; } }
         public virtual bool HasResult { get { return true; } }
 
-        public virtual void MapFields(Repository.question_def question)
-        {
-            Id = question.question_def_id;
-            Name = question.question_def_name;
-            PromptText = question.prompt_text;
-
-            DeserialiseDetails(question.question_details);
-        }
-
         public virtual void BindFields(ModelBindingContext bindingContext)
         {
             int tmpInt;
@@ -76,8 +67,19 @@ namespace SurveyTest.Models
                 value = valueResult.AttemptedValue;
                 return true;
             }
-            else
-                return false;
+            return false;
+        }
+
+        protected static bool TryGetValue(IValueProvider provider, string key, out bool value)
+        {
+            value = false;
+            var valueResult = provider.GetValue(key);
+            if ((valueResult != null) && !string.IsNullOrEmpty(valueResult.AttemptedValue))
+            {
+                value = valueResult.AttemptedValue.Contains("true");
+                return true;
+            }
+            return false;
         }
 
     }
