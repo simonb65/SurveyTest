@@ -12,7 +12,7 @@
         <tr>
             <td>@Html.EditorFor(m => m.Questions[idx].Text)</td>
             <td>@Html.EditorFor(m => m.Questions[idx].Value)</td>
-            <td><a onclick="MoveOpt(@idx, 1)">Up</a> | <a onclick="MoveOpt(@idx, -1)">Down</a> | <a onclick="RemoveOpt(@idx)">Remove</a></td>
+            <td><a onclick="MoveOption(@idx, -1)">Up</a> | <a onclick="MoveOption(@idx, 1)">Down</a> | <a onclick="RemoveOption(@idx)">Remove</a></td>
         </tr>
     }
 </table>
@@ -24,5 +24,5 @@
     @Html.Label("NewOptValue", "Value")
     @Html.TextBox("NewOptValue")
     
-    <input id="AddOpt" type="button" value="Add Option" />
+    <input id="AddOpt" type="button" value="Add Option" onclick="AddOption()" />
 </div>

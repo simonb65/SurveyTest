@@ -69,6 +69,7 @@ namespace SurveyTest.Models
                             Value = int.Parse(x.Attribute("value").Value),
                             Order = int.Parse(x.Attribute("order").Value)
                         })
+                    .OrderBy(x => x.Order)
                     .ToList();
             }
         }

@@ -78,11 +78,40 @@ namespace SurveyTest.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddOpt(int id, string text, int value)
+        public ActionResult AddOption(int id, string text, int value)
         {
             var qd = (MultiChoiceQuestionDef)_repo.GetQuestion(id);
 
             qd.Questions.Add(new MultiChoiceQuestionDef.QuestionOption { Text = text, Value = value, Order = qd.Questions.Count + 1 });
+
+            _repo.UpdateQuestionDef(qd);
+
+            return Json(new { result = true });
+        }
+
+        [HttpPost]
+        public ActionResult MoveOption(int id, int optIdx, int direction)
+        {
+            // First and move up - ignore
+            if ((optIdx == 0) && (direction < 0))
+                return Json(new { result = true });
+
+            var qd = (MultiChoiceQuestionDef)_repo.GetQuestion(id);
+
+            // First and move down - ignore
+            if ((optIdx == (qd.Questions.Count - 1)) && (direction > 0))
+                return Json(new { result = true });
+
+
+            // Swap order
+            var q = qd.Questions[optIdx];
+            var p = qd.Questions[optIdx + direction];
+
+            var tmp = q.Order;
+            q.Order = p.Order;
+            p.Order = tmp;
+
+            qd.Questions = qd.Questions.OrderBy(x => x.Order).ToList();
 
             _repo.UpdateQuestionDef(qd);
 
