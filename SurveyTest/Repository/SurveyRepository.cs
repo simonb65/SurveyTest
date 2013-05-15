@@ -4,6 +4,7 @@ using System.Linq;
 using System.Data.Entity;
 
 using SurveyTest.Models;
+using System.Data;
 
 namespace SurveyTest.Repository
 {
@@ -54,6 +55,18 @@ namespace SurveyTest.Repository
             }
         }
 
+        public SurveyModel GetSurvey(int surveyId)
+        {
+            using (var db = new Repository.SurveyTestEntities())
+            {
+                var surveys = db.surveys.Where(s => s.survey_id == surveyId);
+
+                return surveys.Any()
+                    ? _surveyMapper.MapSurveyAndQuestions(surveys.First())
+                    : null;
+            }
+        }
+
         public void SaveSurvey(SurveyModel sm)
         {
             using (var db = new Repository.SurveyTestEntities())
@@ -69,11 +82,23 @@ namespace SurveyTest.Repository
                     sr = db.surveys.Find(sm.Id);
                     if (sr == null)
                         throw new ApplicationException("No survey exists for ID:" + sm.Id);
+
+                    db.Entry(sr).State = EntityState.Modified;
                 }
 
                 sr.survey_name = sm.Name;
                 sr.survey_desc = sm.Description;
 
+                db.SaveChanges();
+            }
+        }
+
+        public void DeleteSurvey(int id)
+        {
+            using (var db = new Repository.SurveyTestEntities())
+            {
+                survey survey = db.surveys.Find(id);
+                db.surveys.Remove(survey);
                 db.SaveChanges();
             }
         }
@@ -110,23 +135,11 @@ namespace SurveyTest.Repository
             }
         }
 
-        public SurveyModel GetSurvey(int surveyId)
+        public void StoreSurveyResult(SubmitSurveyModel submit, SurveyRunModel surveyRunModel)
         {
             using (var db = new Repository.SurveyTestEntities())
             {
-                var surveys = db.surveys.Where(s => s.survey_id == surveyId);
-
-                return surveys.Any()
-                    ? _surveyMapper.MapSurveyAndQuestions(surveys.First())
-                    : null;
-            }
-        }
-
-        public void StoreSurveyResult(SubmitSurveyModel submit, SurveyModel surveyModel)
-        {
-            using (var db = new Repository.SurveyTestEntities())
-            {
-                var survey = db.surveys.Find(surveyModel.Id);
+                var survey = db.surveys.Find(surveyRunModel.Id);
 
                 var surveyReponse = new survey_response
                 {
@@ -138,14 +151,13 @@ namespace SurveyTest.Repository
 
                 db.survey_response.Add(surveyReponse);
 
-                foreach (var sq in surveyModel.Questions.Where(q => q.QuestionDef.HasResult))
+                foreach (var ans in surveyRunModel.Answers.Where(q => q.Question.HasResult))
                 {
                     var sa = new survey_answer
                     {
                         SurveyResponse = surveyReponse,
-                        SurveyQuestion = survey.SurveyQuestions.First(x => x.question_def_id == sq.QuestionDef.Id),
-                        answer = sq.Answer.ToString(),
-                        
+                        survey_question_id = ans.Question.Id,
+                        answer = ans.ToString(),
                     };
 
                     db.survey_answer.Add(sa);

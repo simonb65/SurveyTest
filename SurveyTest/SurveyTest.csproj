@@ -124,7 +124,7 @@
     <Compile Include="Models\QuestionDefActivator.cs" />
     <Compile Include="Models\QuestionResult.cs" />
     <Compile Include="Models\SubmitSurveyModel.cs" />
-    <Compile Include="Models\SurveyModelBinder.cs" />
+    <Compile Include="Models\SurveyRunModelBinder.cs" />
     <Compile Include="Models\SurveyQuestion.cs" />
     <Compile Include="Models\QuestionDef.cs" />
     <Compile Include="Models\TextQuestionDef.cs" />

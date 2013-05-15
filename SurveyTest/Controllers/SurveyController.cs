@@ -56,7 +56,7 @@ namespace SurveyTest.Controllers
         {
             if (ModelState.IsValid)
             {
-                var survey = (SurveyModel)Session[model.SurveySessKey];
+                var survey = (SurveyRunModel)Session[model.SurveySessKey];
                 _surveyRepository.StoreSurveyResult(model, survey);
 
                 return RedirectToAction("Index", "Home");

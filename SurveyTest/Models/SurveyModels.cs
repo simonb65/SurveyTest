@@ -13,4 +13,9 @@ namespace SurveyTest.Models
         public string Description { get; set; }
         public IList<SurveyQuestion> Questions { get; set; }
     }
+
+    public class SurveyRunModel : SurveyModel
+    {
+        public IList<QuestionResult> Answers { get; set; }
+    }
 }

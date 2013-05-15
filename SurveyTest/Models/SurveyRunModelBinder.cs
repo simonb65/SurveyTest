@@ -2,22 +2,27 @@
 using System.Linq;
 using System.Web.Mvc;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace SurveyTest.Models
 {
-    public class SurveyModelBinder : IModelBinder
+    public class SurveyRunModelBinder : IModelBinder
     {
         public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
-            var survey = bindingContext.Model as SurveyModel;
+            var survey = bindingContext.Model as SurveyRunModel;
             if (survey == null)
                 throw new ApplicationException("Need model to be passed in!");
 
+            survey.Answers = new List<QuestionResult>();
+
             foreach (var q in survey.Questions.Where(q => q.QuestionDef.HasResult))
             {
-                q.Answer = q.QuestionDef.GetResult(bindingContext.ValueProvider);
-                if ((q.Answer == null) && (q.Mandatory))
+                var answer = q.QuestionDef.GetResult(bindingContext.ValueProvider);
+                if ((answer == null) && (q.Mandatory))
                     bindingContext.ModelState[q.QuestionDef.QuestionName] = CreateErrorModelState(q.QuestionDef.QuestionName, "Missing");
+
+                survey.Answers.Add(answer);
             }
 
             return survey;

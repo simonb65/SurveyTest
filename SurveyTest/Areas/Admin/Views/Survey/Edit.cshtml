@@ -1,5 +1,4 @@
-﻿@model SurveyTest.Repository.survey
-
+﻿@model SurveyTest.Models.SurveyModel
 @{
     ViewBag.Title = "Edit";
 }
@@ -15,27 +14,27 @@
         <legend>survey</legend>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.survey_id)
+            @Html.LabelFor(model => model.Id)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => model.survey_id, new { disabled = "disabled", @readonly = "readonly"} )
-            @Html.ValidationMessageFor(model => model.survey_id)
+            @Html.TextBoxFor(model => model.Id, new { disabled = "disabled", @readonly = "readonly"} )
+            @Html.ValidationMessageFor(model => model.Id)
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.survey_name)
+            @Html.LabelFor(model => model.Name)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.survey_name)
-            @Html.ValidationMessageFor(model => model.survey_name)
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.survey_desc)
+            @Html.LabelFor(model => model.Description)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.survey_desc)
-            @Html.ValidationMessageFor(model => model.survey_desc)
+            @Html.EditorFor(model => model.Description)
+            @Html.ValidationMessageFor(model => model.Description)
         </div>
 
         <div>
@@ -46,13 +45,12 @@
                     <th>Mandatory</th>
                 </tr>
                 @{ var idx = 0; }
-                @foreach (var sq in Model.SurveyQuestions.OrderBy(x => x.question_order))
+                @foreach (var sq in Model.Questions.OrderBy(x => x.Order))
                 { 
-                    @Html.Hidden(string.Format("SurveyQuestions[{0}].survey_id",idx++), sq.survey_id);
                     <tr>
-                        <td>@Html.DisplayText(sq.QuestionDef.question_def_name)</td>
-                        <td>@Html.DisplayText(sq.question_order.ToString())</td>
-                        <td>@Html.DisplayText(sq.mandatory.ToString())</td>
+                        <td>@Html.DisplayText(sq.QuestionDef.Name)</td>
+                        <td>@Html.DisplayText(sq.Order.ToString())</td>
+                        <td>@Html.DisplayText(sq.Mandatory.ToString())</td>
                     </tr>
                 }
             </table>

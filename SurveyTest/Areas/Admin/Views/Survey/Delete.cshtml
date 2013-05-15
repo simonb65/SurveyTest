@@ -1,4 +1,4 @@
-﻿@model SurveyTest.Repository.survey
+﻿@model SurveyTest.Models.SurveyModel
 
 @{
     ViewBag.Title = "Delete";
@@ -10,20 +10,15 @@
 <fieldset>
     <legend>survey</legend>
 
-    <div class="display-label">survey_id</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.survey_id)
-    </div>
+    <div class="display-label">Id</div>
+    <div class="display-field">@Html.DisplayFor(model => model.Id)</div>
 
-    <div class="display-label">survey_name</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.survey_name)
-    </div>
+    <div class="display-label">Name</div>
+    <div class="display-field">@Html.DisplayFor(model => model.Name)</div>
 
-    <div class="display-label">survey_desc</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.survey_desc)
-    </div>
+    <div class="display-label">Description</div>
+    <div class="display-field">@Html.DisplayFor(model => model.Description)</div>
+
 </fieldset>
 @using (Html.BeginForm()) {
     <p>

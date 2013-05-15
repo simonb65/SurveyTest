@@ -52,7 +52,8 @@ namespace SurveyTest
             var questionDefModelBinger = DependencyResolver.Current.GetService<SurveyTest.Areas.Admin.Models.QuestionDefModelBinder>();
             ModelBinders.Binders.Add(typeof(SurveyTest.Models.QuestionDef), questionDefModelBinger);
 
-            ModelBinders.Binders.Add(typeof(SurveyTest.Models.SurveyModel), new SurveyTest.Models.SurveyModelBinder());
+            var surveyRunModelBinder = DependencyResolver.Current.GetService<SurveyTest.Models.SurveyRunModelBinder>();
+            ModelBinders.Binders.Add(typeof(SurveyTest.Models.SurveyRunModel), surveyRunModelBinder);
         }
     }
 }

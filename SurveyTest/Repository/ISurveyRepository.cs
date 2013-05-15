@@ -10,17 +10,16 @@ namespace SurveyTest.Repository
         IList<SurveyModel> ListSurveys();
         SurveyModel GetSurvey(int surveyId);
         void SaveSurvey(SurveyModel survey);
+        void DeleteSurvey(int id);
 
-        void StoreSurveyResult(SubmitSurveyModel submit, SurveyModel survey);
+        void StoreSurveyResult(SubmitSurveyModel submit, SurveyRunModel survey);
 
-        IList<QuestionDef> ListQuestions();
         IList<Tuple<int, string>> ListQuestionFormats();
 
+        IList<QuestionDef> ListQuestions();
+        QuestionDef GetQuestion(int id);
         void SaveNewQuestionDef(string name, int formatTypeId, string prompt);
         void UpdateQuestionDef(QuestionDef questionDef);
-
-        QuestionDef GetQuestion(int id);
-
         void DeleteQuestion(int id);
     }
 }
