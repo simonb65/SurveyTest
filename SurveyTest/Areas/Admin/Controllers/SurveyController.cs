@@ -5,54 +5,42 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+
+using SurveyTest.Models;
 using SurveyTest.Repository;
 
 namespace SurveyTest.Areas.Admin.Controllers
 { 
     public class SurveyController : Controller
     {
-        public SurveyController()
-        {
-
-        }
-
         private SurveyTestEntities db = new SurveyTestEntities();
 
-        //
-        // GET: /Admin/Survey/
 
+        private readonly ISurveyRepository _repo;
+        public SurveyController(ISurveyRepository repo)
+        {
+            _repo = repo;
+        }
+
+        [HttpGet]
         public ViewResult Index()
         {
-            return View(db.surveys.ToList());
+            var surveys = _repo.ListSurveys();
+            return View(surveys);
         }
 
-        //
-        // GET: /Admin/Survey/Details/5
-
-        public ViewResult Details(int id)
-        {
-            survey survey = db.surveys.Find(id);
-            return View(survey);
-        }
-
-        //
-        // GET: /Admin/Survey/Create
-
+        [HttpGet]
         public ActionResult Create()
         {
             return View();
         } 
 
-        //
-        // POST: /Admin/Survey/Create
-
         [HttpPost]
-        public ActionResult Create(survey survey)
+        public ActionResult Create(SurveyModel survey)
         {
             if (ModelState.IsValid)
             {
-                db.surveys.Add(survey);
-                db.SaveChanges();
+                _repo.SaveSurvey(survey);
                 return RedirectToAction("Index");  
             }
 

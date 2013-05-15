@@ -1,7 +1,8 @@
-﻿@model IEnumerable<SurveyTest.Repository.survey>
+﻿@using SurveyTest.Models
+@model IList<SurveyModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Surverys";
 }
 
 <h2>Index</h2>
@@ -11,33 +12,26 @@
 </p>
 <table>
     <tr>
-        <th>
-            ID
-        </th>
-        <th>
-            Name
-        </th>
-        <th>
-            Description
-        </th>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
         <th><i>Actions</i></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.survey_id)
+            @Html.DisplayFor(modelItem => item.Id)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.survey_name)
+            @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.survey_desc)
+            @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.survey_id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.survey_id }) |
-            @Html.ActionLink("Delete", "Delete", new {  id=item.survey_id  })
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new {  id=item.Id  })
         </td>
     </tr>
 }

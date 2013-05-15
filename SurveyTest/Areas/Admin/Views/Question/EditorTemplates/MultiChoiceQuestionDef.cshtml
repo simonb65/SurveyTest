@@ -5,13 +5,14 @@
     <tr>
         <th>Option</th>
         <th>Value</th>
+        <th><i>Actions</i></th>
     </tr>
 
     @for (var idx = 0; idx < Model.Questions.Count; idx++)
     {
         <tr>
-            <td>@Html.EditorFor(m => m.Questions[idx].Text)</td>
-            <td>@Html.EditorFor(m => m.Questions[idx].Value)</td>
+            <td>@Html.TextBoxFor(m => m.Questions[idx].Text)</td>
+            <td>@Html.TextBoxFor(m => m.Questions[idx].Value, new { @class = "numeric" })</td>
             <td>@if (idx == 0)  { 
                     @:- 
                 }  else  { 
@@ -32,7 +33,7 @@
     @Html.TextBox("NewOptTxt")
 
     @Html.Label("NewOptValue", "Value")
-    @Html.TextBox("NewOptValue")
+    @Html.TextBox("NewOptValue", 0, new { @class = "numeric" })
     
     <input id="AddOpt" type="button" value="Add Option" onclick="AddOption()" />
 </div>

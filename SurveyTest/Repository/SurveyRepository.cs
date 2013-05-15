@@ -54,6 +54,30 @@ namespace SurveyTest.Repository
             }
         }
 
+        public void SaveSurvey(SurveyModel sm)
+        {
+            using (var db = new Repository.SurveyTestEntities())
+            {
+                survey sr;
+                if (sm.Id == 0)
+                {
+                    sr = new survey();
+                    db.surveys.Add(sr);
+                }
+                else
+                {
+                    sr = db.surveys.Find(sm.Id);
+                    if (sr == null)
+                        throw new ApplicationException("No survey exists for ID:" + sm.Id);
+                }
+
+                sr.survey_name = sm.Name;
+                sr.survey_desc = sm.Description;
+
+                db.SaveChanges();
+            }
+        }
+
         public void SaveNewQuestionDef(string name, int formatTypeId, string prompt)
         {
             using (var db = new Repository.SurveyTestEntities())

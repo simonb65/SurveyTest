@@ -9,6 +9,7 @@ namespace SurveyTest.Repository
     {
         IList<SurveyModel> ListSurveys();
         SurveyModel GetSurvey(int surveyId);
+        void SaveSurvey(SurveyModel survey);
 
         void StoreSurveyResult(SubmitSurveyModel submit, SurveyModel survey);
 

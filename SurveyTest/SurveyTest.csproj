@@ -252,7 +252,6 @@
     <Content Include="Areas\Admin\Views\Question\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Admin\Views\Survey\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Survey\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Survey\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Survey\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Survey\Delete.cshtml" />

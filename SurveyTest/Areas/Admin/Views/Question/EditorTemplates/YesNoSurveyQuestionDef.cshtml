@@ -6,7 +6,7 @@
     </div>
 
     <div class="editor-label">
-        @Html.TextBoxFor(m => m.YesOptionValue)
+        @Html.TextBoxFor(m => m.YesOptionValue, new { @class = "numeric" })
         @Html.ValidationMessageFor(m => m.YesOptionValue)
     </div>
 
@@ -15,7 +15,7 @@
     </div>
 
     <div class="editor-label">
-        @Html.TextBoxFor(m => m.NoOptionValue)
+        @Html.TextBoxFor(m => m.NoOptionValue, new { @class = "numeric" })
         @Html.ValidationMessageFor(m => m.NoOptionValue)
     </div>
 </div>

@@ -61,11 +61,9 @@
 
 <script  type="text/javascript">
     function AddOption() {
-        $('#AddOpt').click(function () {
-            var optTxt = $('#NewOptTxt');
-            var optVal = $('#NewOptValue');
-            $.post('@Url.Action("AddOption", new { id = Model.Id })', { text: optTxt.val(), value: optVal.val() }, function () { location.reload(true); });
-        });
+        var optTxt = $('#NewOptTxt');
+        var optVal = $('#NewOptValue');
+        $.post('@Url.Action("AddOption", new { id = Model.Id })', { text: optTxt.val(), value: optVal.val() }, function () { location.reload(true); });
     };
 
     function MoveOption(optIdx, direction) {
@@ -75,4 +73,24 @@
     function RemoveOption(optIdx) {
         $.post('@Url.Action("RemoveOption", new { id = Model.Id })', { optIdx: optIdx }, function () { location.reload(true); });
     };
+
+    $(document).ready(function () {
+        $(".numeric").keydown(function (event) {
+            // Allow: backspace, delete, tab, escape, and enter
+            if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || event.keyCode == 13 ||
+                // Allow: Ctrl+A
+                (event.keyCode == 65 && event.ctrlKey === true) ||
+                // Allow: home, end, left, right
+                (event.keyCode >= 35 && event.keyCode <= 39)) {
+                // let it happen, don't do anything
+                return;
+            }
+            else {
+                // Ensure that it is a number and stop the keypress
+                if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105)) {
+                    event.preventDefault();
+                }
+            }
+        });
+    });
 </script>
