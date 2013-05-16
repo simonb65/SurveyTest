@@ -30,7 +30,7 @@
     
     <br />
     @{ var idx = 0; }
-    @foreach (var question in surveyDef.QuestionTexts)
+    @foreach (var question in surveyDef.Questions)
     { 
         var atts = new Dictionary<string, object> { { "id", surveyDef.QuestionName + "_" + idx.ToString("00") } };
         if (idx == checkedIdx) { atts["checked"] = true; }

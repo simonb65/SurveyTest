@@ -14,8 +14,8 @@ namespace SurveyTest.Models
         public IList<SurveyQuestion> Questions { get; set; }
     }
 
+    // Separate class for model binding.
     public class SurveyRunModel : SurveyModel
     {
-        public IList<QuestionResult> Answers { get; set; }
     }
 }

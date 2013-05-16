@@ -186,13 +186,13 @@ namespace SurveyTest.Repository
 
                 db.survey_response.Add(surveyReponse);
 
-                foreach (var ans in surveyRunModel.Answers.Where(q => q.Question.HasResult))
+                foreach (var sq in surveyRunModel.Questions.Where(q => q.QuestionDef.HasResult))
                 {
                     var sa = new survey_answer
                     {
                         SurveyResponse = surveyReponse,
-                        survey_question_id = ans.Question.Id,
-                        answer = ans.ToString(),
+                        SurveyQuestion = survey.SurveyQuestions.First(x => x.question_def_id == sq.QuestionDef.Id),
+                        answer = sq.Answer.ToString(),
                     };
 
                     db.survey_answer.Add(sa);

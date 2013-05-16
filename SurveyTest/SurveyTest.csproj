@@ -301,13 +301,13 @@
     <Content Include="Views\Shared\_LogOnPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
-    <Content Include="Views\Survey\BloodPressureQuestionDef.cshtml" />
-    <Content Include="Views\Survey\DateQuestionDef.cshtml" />
-    <Content Include="Views\Survey\HeaderQuestionDef.cshtml" />
+    <Content Include="Views\Survey\BloodPressure.cshtml" />
+    <Content Include="Views\Survey\Date.cshtml" />
+    <Content Include="Views\Survey\Header.cshtml" />
     <Content Include="Views\Survey\Index.cshtml" />
-    <Content Include="Views\Survey\MultiChoiceQuestionDef.cshtml" />
-    <Content Include="Views\Survey\MultiSelectQuestionDef.cshtml" />
-    <Content Include="Views\Survey\TextQuestionDef.cshtml" />
+    <Content Include="Views\Survey\MultiChoice.cshtml" />
+    <Content Include="Views\Survey\MultiSelect.cshtml" />
+    <Content Include="Views\Survey\Text.cshtml" />
     <Content Include="Views\Survey\Thanks.cshtml" />
   </ItemGroup>
   <ItemGroup>
