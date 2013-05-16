@@ -17,7 +17,7 @@ namespace SurveyTest.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.Message = "Welcome to Test Survey System";
+            ViewBag.Message = "Welcome to Remedy Surveys";
 
             var surveys = _surveyRepository.ListSurveys();
 

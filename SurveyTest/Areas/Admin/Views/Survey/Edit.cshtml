@@ -37,7 +37,9 @@
             @Html.ValidationMessageFor(model => model.Description)
         </div>
 
-        <div>
+        <br />
+
+        <div style="float:left;width:30%">
             <table>
                 <tr>
                     <th>Question</th>
@@ -53,16 +55,47 @@
                         <td>@Html.DisplayText(sq.Mandatory.ToString())</td>
                     </tr>
                 }
+           
             </table>
+
         </div>
 
+        <div style="float:left;margin-right:10px">
+            <input id="AddQuestion" type="button" value="<<" />
+            <br />
+            <input id="RemoveQuestion" type="button" value=">>" />
+        </div>
 
+        <div>
+            @Html.ListBox("AvailQuestions", (IEnumerable<SelectListItem>)ViewBag.AvailableQuestions)
+        </div>
+        
+        <div style="clear:both"></div>
         <p>
             <input type="submit" value="Save" />
         </p>
     </fieldset>
 }
-
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+<script  type="text/javascript">
+    $(document).ready(function () {
+        $('#AddQuestion').click(function AddQuestion(event) {
+            var selvals = $('#AvailQuestions').find(":selected");
+
+            if (selvals.length == 0) {
+                alert('No Questions Selected');
+            } else {
+                var str = "[";
+                selvals.each(function () { str += $(this).val() + ","; });
+                str = str.substring(0, str.length - 1);
+                str += "]";
+
+                alert(str);
+            }
+        });
+    });
+</script>
+

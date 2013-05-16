@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 
 using SurveyTest.Models;
@@ -44,6 +45,14 @@ namespace SurveyTest.Areas.Admin.Controllers
         public ActionResult Edit(int id)
         {
             var survey = _repo.GetSurvey(id);
+
+            var questions = _repo.ListQuestions();
+            ViewBag.AvailableQuestions = questions
+                .Where(x => !survey.Questions.Any(q => q.QuestionDef.Id == x.Id))
+                .OrderBy(x => x.Name)
+                .Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() })
+                .ToList();
+
             return View(survey);
         }
 
