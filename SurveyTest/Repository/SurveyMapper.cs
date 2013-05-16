@@ -40,7 +40,9 @@ namespace SurveyTest.Repository
                 Id = survey.survey_id,
                 Name = survey.survey_name,
                 Description = survey.survey_desc,
-                Questions = tableOnly ? null : survey.SurveyQuestions.Select(MapSurveyQuestion).ToList()
+                Questions = tableOnly 
+                    ? null 
+                    : survey.SurveyQuestions.Select(MapSurveyQuestion).OrderBy(x => x.Order).ToList()
             };
         }
 
@@ -48,6 +50,7 @@ namespace SurveyTest.Repository
         {
             return new SurveyQuestion
             {
+                Id = surveyQuestion.survey_question_id,
                 Order = surveyQuestion.question_order,
                 Mandatory = surveyQuestion.mandatory ?? false,
                 QuestionDef = MapQuestionDef(surveyQuestion.QuestionDef)

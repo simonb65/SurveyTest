@@ -59,10 +59,10 @@ namespace SurveyTest.Repository
         {
             using (var db = new Repository.SurveyTestEntities())
             {
-                var surveys = db.surveys.Where(s => s.survey_id == surveyId);
+                var survey = db.surveys.Find(surveyId);
 
-                return surveys.Any()
-                    ? _surveyMapper.MapSurveyAndQuestions(surveys.First())
+                return (survey != null) 
+                    ? _surveyMapper.MapSurveyAndQuestions(survey)
                     : null;
             }
         }
@@ -88,6 +88,41 @@ namespace SurveyTest.Repository
 
                 sr.survey_name = sm.Name;
                 sr.survey_desc = sm.Description;
+
+                foreach(var smq in sm.Questions)
+                {
+                    var sq = sr.SurveyQuestions.FirstOrDefault(x => x.survey_question_id == smq.Id);
+
+                    if (sq != null)
+                    {
+                        sq.mandatory = smq.Mandatory;
+                        sq.question_order = smq.Order;
+                    }
+
+                    else
+                    {
+                        var sqr = new survey_question
+                        {
+                            Survey = sr,
+                            question_def_id = smq.QuestionDef.Id,
+                            mandatory = smq.Mandatory,
+                            question_order = smq.Order
+                        };
+
+                        db.survey_question.Add(sqr);
+                        sr.SurveyQuestions.Add(sqr);
+                    }
+                }
+
+                foreach (var sqr in sr.SurveyQuestions.ToList()
+                    .Where(x => !sm.Questions.Any(q => q.Id == x.survey_question_id)))
+                {
+
+                    sqr.QuestionDef = null;
+                    sqr.Survey = null;
+
+                    db.survey_question.Remove(sqr);
+                }
 
                 db.SaveChanges();
             }

@@ -11,7 +11,7 @@
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
     <fieldset>
-        <legend>survey</legend>
+        <legend>Survey</legend>
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Id)
@@ -39,20 +39,33 @@
 
         <br />
 
-        <div style="float:left;width:30%">
+        <div style="float:left;width:35%">
             <table>
                 <tr>
                     <th>Question</th>
-                    <th>Order</th>
                     <th>Mandatory</th>
+                    <th>Action</th>
                 </tr>
-                @{ var idx = 0; }
-                @foreach (var sq in Model.Questions.OrderBy(x => x.Order))
+                @for (var idx = 0; idx < Model.Questions.Count; idx++ )
                 { 
                     <tr>
-                        <td>@Html.DisplayText(sq.QuestionDef.Name)</td>
-                        <td>@Html.DisplayText(sq.Order.ToString())</td>
-                        <td>@Html.DisplayText(sq.Mandatory.ToString())</td>
+                        <td>
+                            @Html.HiddenFor(model => model.Questions[idx].Id)
+                            @Html.DisplayFor(model => model.Questions[idx].QuestionDef.Name)
+                        </td>
+                        <td>@Html.EditorFor(model => model.Questions[idx].Mandatory)</td>
+                        <td>@if (idx == 0)  { 
+                                @:- 
+                            }  else  { 
+                                <a onclick="MoveQuestion(@idx, -1)">Up</a>
+                            }| 
+                            @if (idx == (Model.Questions.Count - 1)) { 
+                                @:- 
+                            }  else  { 
+                                <a onclick="MoveQuestion(@idx, 1)">Down</a>
+                            }| 
+                            <a onclick="RemoveQuestion(@idx)">Remove</a>
+                        </td>
                     </tr>
                 }
            
@@ -60,10 +73,8 @@
 
         </div>
 
-        <div style="float:left;margin-right:10px">
+        <div style="float:left;margin:10px">
             <input id="AddQuestion" type="button" value="<<" />
-            <br />
-            <input id="RemoveQuestion" type="button" value=">>" />
         </div>
 
         <div>
@@ -88,14 +99,19 @@
             if (selvals.length == 0) {
                 alert('No Questions Selected');
             } else {
-                var str = "[";
+                var str = "";
                 selvals.each(function () { str += $(this).val() + ","; });
                 str = str.substring(0, str.length - 1);
-                str += "]";
-
-                alert(str);
+                $.post('@Url.Action("AddQuestions", new { id = Model.Id })', { questionIds : str }, function (data, ts, x) { location.reload(true); });
             }
         });
     });
+
+    function MoveQuestion(idx, direction) {
+        $.post('@Url.Action("MoveQuestion", new { id = Model.Id })', { questionIdx: idx, direction: direction }, function (data, ts, x) { location.reload(true); });
+    }
+    function RemoveQuestion(idx) {
+        $.post('@Url.Action("RemoveQuestion", new { id = Model.Id })', { questionIdx: idx }, function (data, ts, x) { location.reload(true); });
+    }
 </script>
 
