@@ -1,4 +1,4 @@
-﻿@model SurveyTest.Models.SurveyModel
+﻿@model SurveyTest.Models.SurveyRunModel
 
 @{
     ViewBag.Title = "Survey";
@@ -8,9 +8,9 @@
 
 @using (Html.BeginForm(new { id = Model.Id }))
 { 
-    foreach (var question in Model.Questions.OrderBy(x => x.Order))
+    foreach (var kv in Model.Answers.OrderBy(x => x.Key.Order))
     { 
-        @Html.Partial(question.QuestionDef.FormatType, question)
+        @Html.Partial(kv.Key.Question.FormatType, kv.Value)
     }
     <br />
     <input type="submit" value="Submit Results" name="save" />

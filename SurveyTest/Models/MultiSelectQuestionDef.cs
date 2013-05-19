@@ -18,22 +18,22 @@ namespace SurveyTest.Models
                 && valResult.AttemptedValue.Contains("true"));
         }
 
-        public override QuestionResult GetResult(IValueProvider provider)
+        public override string GetResult(IValueProvider provider)
         {
-            var results = new List<string>();
+            var results = new List<int>();
             var resultsValue = 0;
-            for (var idx = 0; idx < Questions.Count; idx++)
+            for (var idx = 0; idx < QuestionOpts.Count; idx++)
             {
                 if (QuestionSelected(provider, idx))
                 {
-                    results.Add(Questions[idx].Text);
-                    resultsValue += Questions[idx].Value;
+                    results.Add(idx);
+                    resultsValue += QuestionOpts[idx].Value;
                 }
             }
 
-            var answer = string.Join("|", results);
+            var answer = string.Join(",", results);
 
-            return (results.Count > 0) ? new QuestionResult(this) { Answer = answer, Value = resultsValue } : null;
+            return (results.Count > 0) ? answer : null;
         }
     }
 }

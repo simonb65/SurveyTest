@@ -14,13 +14,13 @@ namespace SurveyTest.Models
             if (survey == null)
                 throw new ApplicationException("Need model to be passed in!");
 
-            foreach (var q in survey.Questions.Where(q => q.QuestionDef.HasResult))
+            foreach (var sq in survey.Questions.Where(q => q.Question.HasResult))
             {
-                var answer = q.QuestionDef.GetResult(bindingContext.ValueProvider);
-                if ((answer == null) && (q.Mandatory))
-                    bindingContext.ModelState[q.QuestionDef.QuestionName] = CreateErrorModelState(q.QuestionDef.QuestionName, "Missing");
+                var answer = sq.Question.GetResult(bindingContext.ValueProvider);
+                if ((answer == null) && (sq.Mandatory))
+                    bindingContext.ModelState[sq.Question.QuestionName] = CreateErrorModelState(sq.Question.QuestionName, "Missing");
 
-                q.Answer = answer;
+                survey.Answers[sq].Answer = answer;
             }
 
             return survey;

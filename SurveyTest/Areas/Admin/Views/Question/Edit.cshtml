@@ -19,7 +19,7 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.FormatType, "Question Format Type") : @Html.DisplayTextFor(model => model.FormatType)
+            @Html.LabelFor(model => model.QuestionCode, "Question Format Type") : @Html.DisplayTextFor(model => model.QuestionCode)
         </div>
 
        <div class="editor-label">
@@ -46,7 +46,7 @@
             @Html.ValidationMessageFor(model => model.PromptText)
         </div>
 
-        @Html.HiddenFor(model => model.FormatType)
+        @Html.HiddenFor(model => model.QuestionCode)
         @Html.EditorFor(model => model)
 
         <p>

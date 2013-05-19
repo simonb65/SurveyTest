@@ -17,19 +17,19 @@ namespace SurveyTest.Models
             { "Header", () => new HeaderQuestionDef() },
             { "Date", () => new DateQuestionDef() },
             { "MultiChoice", () => new MultiChoiceQuestionDef() },
-            { "YesNo", () => new YesNoSurveyQuestionDef() }, 
+            { "YesNo", () => new YesNoQuestionDef() }, 
             { "Text", () => new TextQuestionDef() },
             { "Int", () => new IntQuestionDef() },
             { "MultiSelect", () => new  MultiSelectQuestionDef() },
             { "BloodPressure", () => new BloodPressureQuestionDef() }
         };
 
-        public QuestionDef CreateQuestionDef(string formatType)
+        public QuestionDef CreateQuestionDef(string questionType)
         {
             Func<QuestionDef> creator;
 
-            if (!_creatorMap.TryGetValue(formatType, out creator))
-                throw new ApplicationException("Unknown Question Format - " + formatType);
+            if (!_creatorMap.TryGetValue(questionType, out creator))
+                throw new ApplicationException("Unknown Question Type - " + questionType);
 
             return creator();
         }

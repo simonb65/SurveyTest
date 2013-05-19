@@ -1,15 +1,15 @@
 ﻿@using SurveyTest.Models
-@model SurveyQuestion
+@model SurveyQuestionResult
            
 @{ 
-    var surveyDef = (MultiChoiceQuestionDef)Model.QuestionDef;
+    var questionDef = (MultiChoiceQuestionDef)Model.SurveyQuestion.Question;
     var checkedIdx = -1;
 }
 
-<div id='@surveyDef.QuestionName'>
-    <label>@surveyDef.PromptText</label>
+<div id='@questionDef.QuestionName'>
+    <label>@questionDef.PromptText</label>
     
-    @if ((Model.Answer == null) && (Model.Mandatory) && !ViewData.ModelState.IsValid)
+    @if ((Model.Answer == null) && (Model.SurveyQuestion.Mandatory) && !ViewData.ModelState.IsValid)
     { 
         <span class="error">* Required</span>
     }
@@ -17,24 +17,24 @@
     {
         if (Model.Answer != null)
         {
-            if (Model.QuestionDef is YesNoSurveyQuestion)
+            if (Model.SurveyQuestion.Question is YesNoQuestionDef)
             {
-                checkedIdx = ((SimpleQuestionResult<bool>)Model.Answer).Value ? 0 : 1;
+                checkedIdx = bool.Parse(Model.Answer) ? 0 : 1;
             }
             else
             { 
-                checkedIdx = ((SimpleQuestionResult<int>)Model.Answer).Value;
+                checkedIdx = int.Parse(Model.Answer);
             }
         }
     }
     
     <br />
     @{ var idx = 0; }
-    @foreach (var question in surveyDef.Questions)
-    { 
-        var atts = new Dictionary<string, object> { { "id", surveyDef.QuestionName + "_" + idx.ToString("00") } };
+    @foreach (var opt in questionDef.QuestionOpts)
+    {
+        var atts = new Dictionary<string, object> { { "id", questionDef.QuestionName + "_" + idx.ToString("00") } };
         if (idx == checkedIdx) { atts["checked"] = true; }
         
-        @Html.RadioButton(surveyDef.GroupName, surveyDef.ResultName(idx++), atts)@question<br/>
+        @Html.RadioButton(questionDef.GroupName, questionDef.ResultName(idx++), atts)@opt.Text<br/>
     }
 </div>

@@ -47,7 +47,7 @@ namespace SurveyTest.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _repo.SaveNewQuestionDef(model.Name, model.FormatId, model.PromptText);
+                _repo.SaveNewQuestion(model.Name, model.FormatId, model.PromptText);
                 return RedirectToAction("Index");  
             }
 
@@ -70,7 +70,7 @@ namespace SurveyTest.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _repo.UpdateQuestionDef(model);
+                _repo.UpdateQuestion(model);
                 return RedirectToAction("Index");
             }
 
@@ -82,9 +82,9 @@ namespace SurveyTest.Areas.Admin.Controllers
         {
             var qd = (MultiChoiceQuestionDef)_repo.GetQuestion(id);
 
-            qd.Questions.Add(new MultiChoiceQuestionDef.QuestionOption { Text = text, Value = value, Order = qd.Questions.Count + 1 });
+            qd.QuestionOpts.Add(new MultiChoiceQuestionDef.QuestionOption { Text = text, Value = value, Order = qd.QuestionOpts.Count + 1 });
 
-            _repo.UpdateQuestionDef(qd);
+            _repo.UpdateQuestion(qd);
 
             return Json(new { result = true });
         }
@@ -99,21 +99,21 @@ namespace SurveyTest.Areas.Admin.Controllers
             var qd = (MultiChoiceQuestionDef)_repo.GetQuestion(id);
 
             // First and move down - ignore
-            if ((optIdx == (qd.Questions.Count - 1)) && (direction > 0))
+            if ((optIdx == (qd.QuestionOpts.Count - 1)) && (direction > 0))
                 return Json(new { result = true });
 
 
             // Swap order
-            var q = qd.Questions[optIdx];
-            var p = qd.Questions[optIdx + direction];
+            var q = qd.QuestionOpts[optIdx];
+            var p = qd.QuestionOpts[optIdx + direction];
 
             var tmp = q.Order;
             q.Order = p.Order;
             p.Order = tmp;
 
-            qd.Questions = qd.Questions.OrderBy(x => x.Order).ToList();
+            qd.QuestionOpts = qd.QuestionOpts.OrderBy(x => x.Order).ToList();
 
-            _repo.UpdateQuestionDef(qd);
+            _repo.UpdateQuestion(qd);
 
             return Json(new { result = true });
         }
@@ -123,9 +123,9 @@ namespace SurveyTest.Areas.Admin.Controllers
         {
             var qd = (MultiChoiceQuestionDef)_repo.GetQuestion(id);
 
-            qd.Questions.RemoveAt(optIdx);
+            qd.QuestionOpts.RemoveAt(optIdx);
 
-            _repo.UpdateQuestionDef(qd);
+            _repo.UpdateQuestion(qd);
 
             return Json(new { result = true });
         }

@@ -17,5 +17,6 @@ namespace SurveyTest.Models
     // Separate class for model binding.
     public class SurveyRunModel : SurveyModel
     {
+        public IDictionary<SurveyQuestion, SurveyQuestionResult> Answers { get; set; }
     }
 }

@@ -1,12 +1,12 @@
 ﻿@using SurveyTest.Models
-@model SurveyQuestion
+@model SurveyQuestionResult
 @{ 
-    var surveyDef = (TextQuestionDef)Model.QuestionDef;
+    var surveyDef = (TextQuestionDef)Model.SurveyQuestion.Question;
 }
 
 <div id='@surveyDef.QuestionName'>
     <label>@surveyDef.PromptText</label>
-    @if ((Model.Answer == null) && (Model.Mandatory) && !ViewData.ModelState.IsValid)
+    @if ((Model.Answer == null) && (Model.SurveyQuestion.Mandatory) && !ViewData.ModelState.IsValid)
     { 
         <span class="error">* Required</span>
     }

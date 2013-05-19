@@ -12,14 +12,15 @@ namespace SurveyTest.Repository
         void SaveSurvey(SurveyModel survey);
         void DeleteSurvey(int id);
 
+        SurveyRunModel GetSurveyRunMode(int surveyId);
         void StoreSurveyResult(SubmitSurveyModel submit, SurveyRunModel survey);
 
         IList<Tuple<int, string>> ListQuestionFormats();
 
         IList<QuestionDef> ListQuestions();
         QuestionDef GetQuestion(int id);
-        void SaveNewQuestionDef(string name, int formatTypeId, string prompt);
-        void UpdateQuestionDef(QuestionDef questionDef);
+        void SaveNewQuestion(string name, int formatTypeId, string prompt);
+        void UpdateQuestion(QuestionDef questionDef);
         void DeleteQuestion(int id);
     }
 }

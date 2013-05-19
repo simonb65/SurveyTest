@@ -1,17 +1,17 @@
 ﻿@using SurveyTest.Models
-@model SurveyQuestion
+@model SurveyQuestionResult
            
 @{ 
-    var surveyDef = (DateQuestionDef)Model.QuestionDef;
+    var surveyDef = (DateQuestionDef)Model.SurveyQuestion.Question;
 }
 
 <div id='@surveyDef.QuestionName'>
     <label>@surveyDef.PromptText</label>
-    @if ((Model.Answer == null) && (Model.Mandatory) && !ViewData.ModelState.IsValid)
+    @if ((Model.Answer == null) && (Model.SurveyQuestion.Mandatory) && !ViewData.ModelState.IsValid)
     { 
         <span class="error">* Required</span>
     }
-    @{ DateTime? setDate = (Model.Answer != null) ? ((SimpleQuestionResult<DateTime>)(Model.Answer)).Value : (DateTime?)null; }
+    @{ DateTime? setDate = (Model.Answer != null) ? DateTime.Parse(Model.Answer) : (DateTime?)null; }
 
     <div>
         <select id="@surveyDef.DayName" name="@surveyDef.DayName" style="border: 1px solid gray;width: 48px">

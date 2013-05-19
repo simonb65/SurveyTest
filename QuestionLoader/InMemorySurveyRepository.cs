@@ -65,7 +65,7 @@ namespace QuestionLoader
                 Name = "Remedy HRA",
                 Description = "Welcome to the Remedy Healthcare risk assessment tool",
                 Questions = _questions
-                .Select((q, idx) => new SurveyQuestion { Order = idx, QuestionDef = q, Mandatory = q.HasResult })
+                .Select((q, idx) => new SurveyQuestion { Order = idx, Question = q, Mandatory = q.HasResult })
                 .ToList()
             },
         };

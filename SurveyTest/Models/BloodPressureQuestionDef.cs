@@ -10,7 +10,7 @@ namespace SurveyTest.Models
 
         public override string FormatType { get { return "BloodPressure"; } }
         
-        public override QuestionResult GetResult(IValueProvider provider)
+        public override string GetResult(IValueProvider provider)
         {
             int sysPress;
             int diaPress;
@@ -23,7 +23,7 @@ namespace SurveyTest.Models
 
             var answer = sysPress + "/" + diaPress;
 
-            return new QuestionResult(this) { Answer = answer };
+            return answer;
         }
     }
 

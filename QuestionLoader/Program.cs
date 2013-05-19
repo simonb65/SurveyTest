@@ -45,7 +45,7 @@ namespace QuestionLoader
                     string serialisedData = null;
                     int formatId = 0;
 
-                    switch (sq.QuestionDef.GetType().Name)
+                    switch (sq.Question.GetType().Name)
                     {
                         case "HeaderQuestionDef":
                             formatId = DbConst.HeaderFormatId;
@@ -62,11 +62,11 @@ namespace QuestionLoader
                             break;
                         case "TextQuestionDef":
                             formatId = DbConst.TextFormatId;
-                            serialisedData = MapTextSerialisedData(sq.QuestionDef);
+                            serialisedData = MapTextSerialisedData(sq.Question);
                             break;
                         case "IntQuestionDef":
                             formatId = DbConst.IntFormatId;
-                            serialisedData = MapTextSerialisedData(sq.QuestionDef);
+                            serialisedData = MapTextSerialisedData(sq.Question);
                             break;
                         case "MultiSelectQuestionDef":
                             formatId = DbConst.MultiSelectFormatId;
@@ -80,7 +80,7 @@ namespace QuestionLoader
                     Console.WriteLine(
                         "insert into question_def(question_format_id, prompt_text, question_details) values({0}, '{1}', {2});", 
                         formatId,
-                        sq.QuestionDef.PromptText,
+                        sq.Question.PromptText,
                         (serialisedData == null) ? "null" : ("'" + serialisedData + "'"));
 
                     Console.WriteLine("select @QuestionId = @@IDENTITY;");

@@ -1,8 +1,8 @@
 ﻿@using SurveyTest.Models
-@model SurveyQuestion
+@model SurveyQuestionResult
            
 @{ 
-    var surveyDef = (HeaderQuestionDef)Model.QuestionDef;
+    var surveyDef = (HeaderQuestionDef)Model.SurveyQuestion.Question;
 }
 
 <div id='@surveyDef.QuestionName'>

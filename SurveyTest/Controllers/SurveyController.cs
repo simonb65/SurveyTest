@@ -20,14 +20,14 @@ namespace SurveyTest.Controllers
         [HttpGet]
         public ActionResult Index(int id)
         {
-            var survey = _surveyRepository.GetSurvey(id);
+            var survey = _surveyRepository.GetSurveyRunMode(id);
             return View(survey);
         }
 
         [HttpPost]
         public ActionResult Index(int id, string save)
         {
-            var survey = _surveyRepository.GetSurvey(id);
+            var survey = _surveyRepository.GetSurveyRunMode(id);
 
             if (!TryUpdateModel(survey))
             {

@@ -122,13 +122,13 @@
     <Compile Include="Models\MultiChoiceQuestionDef.cs" />
     <Compile Include="Models\MultiSelectQuestionDef.cs" />
     <Compile Include="Models\QuestionDefActivator.cs" />
-    <Compile Include="Models\QuestionResult.cs" />
+    <Compile Include="Models\SurveyQuestionResult.cs" />
     <Compile Include="Models\SubmitSurveyModel.cs" />
     <Compile Include="Models\SurveyRunModelBinder.cs" />
     <Compile Include="Models\SurveyQuestion.cs" />
     <Compile Include="Models\QuestionDef.cs" />
     <Compile Include="Models\TextQuestionDef.cs" />
-    <Compile Include="Models\YesNoSurveyQuestionDef.cs" />
+    <Compile Include="Models\YesNoQuestionDef.cs" />
     <Compile Include="Repository\ISurveyRepository.cs" />
     <Compile Include="Models\SurveyModels.cs" />
     <Compile Include="Repository\question_def.cs">
@@ -258,7 +258,7 @@
     <Content Include="Areas\Admin\Views\Question\EditorTemplates\HeaderQuestionDef.cshtml" />
     <Content Include="Areas\Admin\Views\Question\EditorTemplates\DateQuestionDef.cshtml" />
     <Content Include="Areas\Admin\Views\Question\EditorTemplates\MultiChoiceQuestionDef.cshtml" />
-    <Content Include="Areas\Admin\Views\Question\EditorTemplates\YesNoSurveyQuestionDef.cshtml" />
+    <Content Include="Areas\Admin\Views\Question\EditorTemplates\YesNoQuestionDef.cshtml" />
     <Content Include="Areas\Admin\Views\Question\EditorTemplates\TextQuestionDef.cshtml" />
     <Content Include="Areas\Admin\Views\Question\EditorTemplates\BloodPressureQuestionDef.cshtml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />

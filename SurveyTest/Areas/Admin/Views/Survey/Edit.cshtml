@@ -51,7 +51,7 @@
                     <tr>
                         <td>
                             @Html.HiddenFor(model => model.Questions[idx].Id)
-                            @Html.DisplayFor(model => model.Questions[idx].QuestionDef.Name)
+                            @Html.DisplayFor(model => model.Questions[idx].Question.Name)
                         </td>
                         <td>@Html.EditorFor(model => model.Questions[idx].Mandatory)</td>
                         <td>@if (idx == 0)  { 

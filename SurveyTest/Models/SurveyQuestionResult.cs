@@ -2,12 +2,12 @@
 
 namespace SurveyTest.Models
 {
-    public class QuestionResult
+    public class SurveyQuestionResult
     {
-        public QuestionDef Question { get; private set; }
-        public QuestionResult(QuestionDef question)
+        public SurveyQuestion SurveyQuestion { get; private set; }
+        public SurveyQuestionResult(SurveyQuestion surveyQuestion)
         {
-            Question = question;
+            SurveyQuestion = surveyQuestion;
         }
 
         public int Value { get; set; }

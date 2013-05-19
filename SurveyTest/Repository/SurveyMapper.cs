@@ -10,7 +10,7 @@ namespace SurveyTest.Repository
     public interface ISurveyMapper
     {
         SurveyModel MapSurvey(Repository.survey survey);
-        SurveyModel MapSurveyAndQuestions(Repository.survey survey);
+        void MapSurveyAndQuestions(Repository.survey surveyRec, SurveyModel surveyModel);
 
         QuestionDef MapQuestionDef(question_def question);
     }
@@ -23,27 +23,26 @@ namespace SurveyTest.Repository
             _qda = qda;
         }
 
-        public SurveyModel MapSurvey(Repository.survey survey)
+        public SurveyModel MapSurvey(Repository.survey surveyRec)
         {
-            return MapSurvey(survey, true);
+            var surveyModel = new SurveyModel();
+            MapSurvey(surveyRec, surveyModel, false);
+            return surveyModel;
         }
 
-        public SurveyModel MapSurveyAndQuestions(Repository.survey survey)
+        public void MapSurveyAndQuestions(Repository.survey surveyRec, SurveyModel surveyModel)
         {
-            return MapSurvey(survey, false);
+            MapSurvey(surveyRec, surveyModel, true);
         }
 
-        private SurveyModel MapSurvey(Repository.survey survey, bool tableOnly)
+        private void MapSurvey(Repository.survey surveyRec, SurveyModel surveyModel, bool mapQuestions)
         {
-            return new SurveyModel
-            {
-                Id = survey.survey_id,
-                Name = survey.survey_name,
-                Description = survey.survey_desc,
-                Questions = tableOnly 
-                    ? null 
-                    : survey.SurveyQuestions.Select(MapSurveyQuestion).OrderBy(x => x.Order).ToList()
-            };
+            surveyModel.Id = surveyRec.survey_id;
+            surveyModel.Name = surveyRec.survey_name;
+            surveyModel.Description = surveyRec.survey_desc;
+            surveyModel.Questions = mapQuestions
+                    ? surveyRec.SurveyQuestions.Select(MapSurveyQuestion).OrderBy(x => x.Order).ToList()
+                    : null ;
         }
 
         public SurveyQuestion MapSurveyQuestion(Repository.survey_question surveyQuestion)
@@ -53,7 +52,7 @@ namespace SurveyTest.Repository
                 Id = surveyQuestion.survey_question_id,
                 Order = surveyQuestion.question_order,
                 Mandatory = surveyQuestion.mandatory ?? false,
-                QuestionDef = MapQuestionDef(surveyQuestion.QuestionDef)
+                Question = MapQuestionDef(surveyQuestion.QuestionDef)
             };
         }
 
@@ -64,22 +63,10 @@ namespace SurveyTest.Repository
             qd.Id = question.question_def_id;
             qd.Name = question.question_def_name;
             qd.PromptText = question.prompt_text;
+            qd.Description = question.question_def_description;
             qd.DeserialiseDetails(question.question_details);
 
             return qd;
-        }
-       
-        private QuestionDef MapMultiSelectQuestionDef(question_def question)
-        {
-            var doc = XDocument.Parse(question.question_details);
-            var questions = doc.Descendants("opt").Select(x => x.Value).ToList();
-
-            return new MultiSelectQuestionDef
-            {
-                Id = question.question_def_id,
-                PromptText = question.prompt_text
-                // QuestionTexts = questions
-            };
         }
     }
 }

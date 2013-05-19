@@ -47,6 +47,48 @@ namespace SurveyTest.Repository
             }
         }
         
+        public void SaveNewQuestion(string name, int formatTypeId, string prompt)
+        {
+            using (var db = new Repository.SurveyTestEntities())
+            {
+                var qd = new question_def
+                {
+                    question_def_name = name,
+                    question_format_id = formatTypeId,
+                    prompt_text = prompt
+                };
+
+                db.question_def.Add(qd);
+                db.SaveChanges();
+            }
+        }
+
+        public void UpdateQuestion(QuestionDef questionDef)
+        {
+            using (var db = new Repository.SurveyTestEntities())
+            {
+                var qd = db.question_def.Find(questionDef.Id);
+
+                qd.question_def_name = questionDef.Name;
+                qd.prompt_text = questionDef.PromptText;
+                qd.question_def_description = questionDef.Description;
+
+                qd.question_details = questionDef.SerialiseDetails();
+
+                db.SaveChanges();
+            }
+        }
+
+        public void DeleteQuestion(int id)
+        {
+            using (var db = new Repository.SurveyTestEntities())
+            {
+                question_def question_def = db.question_def.Find(id);
+                db.question_def.Remove(question_def);
+                db.SaveChanges();
+            }
+        }
+
         public IList<SurveyModel> ListSurveys() 
         {
             using (var db = new Repository.SurveyTestEntities())
@@ -57,13 +99,33 @@ namespace SurveyTest.Repository
 
         public SurveyModel GetSurvey(int surveyId)
         {
+            return GetSurvey<SurveyModel>(surveyId);
+        }
+
+        public SurveyRunModel GetSurveyRunMode(int surveyId)
+        {
+            var srm = GetSurvey<SurveyRunModel>(surveyId);
+
+            srm.Answers = srm.Questions.ToDictionary(
+                sq => sq, 
+                sq => new SurveyQuestionResult(sq));
+
+            return srm;
+        }
+
+        private T GetSurvey<T>(int surveyId) where T : SurveyModel, new()
+        {
             using (var db = new Repository.SurveyTestEntities())
             {
-                var survey = db.surveys.Find(surveyId);
+                var surveyRec = db.surveys.Find(surveyId);
 
-                return (survey != null) 
-                    ? _surveyMapper.MapSurveyAndQuestions(survey)
-                    : null;
+                if (surveyRec == null)
+                    return null;
+
+                var surveyModel = new T();
+                _surveyMapper.MapSurveyAndQuestions(surveyRec, surveyModel);
+
+                return surveyModel;
             }
         }
 
@@ -104,7 +166,7 @@ namespace SurveyTest.Repository
                         var sqr = new survey_question
                         {
                             Survey = sr,
-                            question_def_id = smq.QuestionDef.Id,
+                            question_def_id = smq.Question.Id,
                             mandatory = smq.Mandatory,
                             question_order = smq.Order
                         };
@@ -138,38 +200,6 @@ namespace SurveyTest.Repository
             }
         }
 
-        public void SaveNewQuestionDef(string name, int formatTypeId, string prompt)
-        {
-            using (var db = new Repository.SurveyTestEntities())
-            {
-                var qd = new question_def
-                {
-                    question_def_name = name,
-                    question_format_id = formatTypeId,
-                    prompt_text = prompt
-                };
-
-                db.question_def.Add(qd);
-                db.SaveChanges();
-            }
-        }
-
-        public void UpdateQuestionDef(QuestionDef questionDef)
-        {
-            using (var db = new Repository.SurveyTestEntities())
-            {
-                var qd = db.question_def.Find(questionDef.Id);
-
-                qd.question_def_name = questionDef.Name;
-                qd.prompt_text = questionDef.PromptText;
-                qd.question_def_description = questionDef.Description;
-
-                qd.question_details = questionDef.SerialiseDetails();
-
-                db.SaveChanges();
-            }
-        }
-
         public void StoreSurveyResult(SubmitSurveyModel submit, SurveyRunModel surveyRunModel)
         {
             using (var db = new Repository.SurveyTestEntities())
@@ -186,28 +216,19 @@ namespace SurveyTest.Repository
 
                 db.survey_response.Add(surveyReponse);
 
-                foreach (var sq in surveyRunModel.Questions.Where(q => q.QuestionDef.HasResult))
+                foreach (var kv in surveyRunModel.Answers.Where(x => x.Key.Question.HasResult))
                 {
                     var sa = new survey_answer
                     {
                         SurveyResponse = surveyReponse,
-                        SurveyQuestion = survey.SurveyQuestions.First(x => x.question_def_id == sq.QuestionDef.Id),
-                        answer = sq.Answer.ToString(),
+                        SurveyQuestion = survey.SurveyQuestions.First(x => x.question_def_id == kv.Key.Question.Id),
+                        answer = kv.Value.Answer,
+                        value = kv.Value.Value
                     };
 
                     db.survey_answer.Add(sa);
                 }
 
-                db.SaveChanges();
-            }
-        }
-
-        public void DeleteQuestion(int id)
-        {
-            using (var db = new Repository.SurveyTestEntities())
-            {
-                question_def question_def = db.question_def.Find(id);
-                db.question_def.Remove(question_def);
                 db.SaveChanges();
             }
         }

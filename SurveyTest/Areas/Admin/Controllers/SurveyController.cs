@@ -48,7 +48,7 @@ namespace SurveyTest.Areas.Admin.Controllers
             var questions = _repo.ListQuestions();
             var survey = _repo.GetSurvey(id);
             ViewBag.AvailableQuestions = questions
-                .Where(x => !survey.Questions.Any(q => q.QuestionDef.Id == x.Id))
+                .Where(x => !survey.Questions.Any(q => q.Question.Id == x.Id))
                 .OrderBy(x => x.Name)
                 .Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() })
                 .ToList();
@@ -82,7 +82,7 @@ namespace SurveyTest.Areas.Admin.Controllers
             var order = survey.Questions.Any() ? survey.Questions.Max(x => x.Order) + 1 : 1;
             foreach (var question in questions)
             {
-                survey.Questions.Add(new SurveyQuestion { QuestionDef = question, Order = ++order, Mandatory = true });
+                survey.Questions.Add(new SurveyQuestion { Question = question, Order = ++order, Mandatory = true });
             }
 
             _repo.SaveSurvey(survey);

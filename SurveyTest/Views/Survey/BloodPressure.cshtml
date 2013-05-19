@@ -1,22 +1,25 @@
 ﻿@using SurveyTest.Models
-@model SurveyQuestion
+@model SurveyQuestionResult
            
 @{ 
-    var surveyDef = (BloodPressureQuestionDef)Model.QuestionDef;
+    var surveyDef = (BloodPressureQuestionDef)Model.SurveyQuestion.Question;
     string sysPress = string.Empty;
     string diaPress = string.Empty;
     
     if (Model.Answer != null)
     {
-        var ans = (BloodPressureQuestionResult)Model.Answer;
-        sysPress = (ans.SysPress != 0) ? ans.SysPress.ToString() : string.Empty;
-        diaPress = (ans.DiaPress != 0) ? ans.DiaPress.ToString() : string.Empty;
+        var ans = Model.Answer.Split('/');
+        if (ans.Length == 2)
+        {
+            sysPress = ans[0];
+            diaPress = ans[1];
+        }
     }
 }
 
 <div id='@surveyDef.QuestionName'>
     <label>@surveyDef.PromptText</label>
-    @if ((Model.Answer == null) && (Model.Mandatory) && !ViewData.ModelState.IsValid)
+    @if ((Model.Answer == null) && (Model.SurveyQuestion.Mandatory) && !ViewData.ModelState.IsValid)
     { 
         <span class="error">* Required</span>
     }

@@ -26,7 +26,7 @@ namespace SurveyTest.Areas.Admin.Models
 
         private string GetFormatType(ModelBindingContext bindingContext)
         {
-            var formatTypeVal = bindingContext.ValueProvider.GetValue("FormatType");
+            var formatTypeVal = bindingContext.ValueProvider.GetValue("QuestionCode");
             if (formatTypeVal == null)
                 throw new ApplicationException("Doh! - No format type set!");
 

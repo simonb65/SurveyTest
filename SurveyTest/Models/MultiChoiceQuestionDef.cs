@@ -16,7 +16,7 @@ namespace SurveyTest.Models
             public int Value { get; set; }
         }
 
-        public IList<QuestionOption> Questions { get; set; }
+        public IList<QuestionOption> QuestionOpts { get; set; }
         public int DefaultIdx { get; set; }
 
         public MultiChoiceQuestionDef()
@@ -25,20 +25,19 @@ namespace SurveyTest.Models
         }
 
         public override string FormatType { get { return "MultiChoice"; } }
-        
+       
         public string GroupName { get { return QuestionName + "_G"; } }
 
         protected string ResultPrefix { get { return QuestionName + "_R"; } }
         public string ResultName(int idx) { return ResultPrefix + idx.ToString("00"); }
 
-        public override QuestionResult GetResult(IValueProvider provider)
+        public override string GetResult(IValueProvider provider)
         {
             string value;
             if (TryGetValue(provider, GroupName, out value))
             {
                 var idx = int.Parse(value.Substring(ResultPrefix.Length));
-                var answer = Questions[idx];
-                return new QuestionResult(this) { Answer = answer.Text, Value = answer.Value };
+                return idx.ToString();
             }
 
             return null;
@@ -49,7 +48,7 @@ namespace SurveyTest.Models
             return "<opts>" + 
                 string.Join(
                     string.Empty,
-                    Questions
+                    QuestionOpts
                         .OrderBy(x => x.Order)
                         .Select(t => string.Format("<opt value=\"{0}\">{1}</opt>", t.Value, t.Text))) + 
                 "</opts>";
@@ -59,12 +58,12 @@ namespace SurveyTest.Models
         {
             if (details == null)
             {
-                Questions = new List<QuestionOption>();
+                QuestionOpts = new List<QuestionOption>();
             }
             else
             {
                 var doc = XDocument.Parse(details);
-                Questions = doc.Descendants("opt")
+                QuestionOpts = doc.Descendants("opt")
                     .Select((x, idx) =>
                         new QuestionOption
                         {
@@ -80,18 +79,22 @@ namespace SurveyTest.Models
         public override void BindFields(ModelBindingContext bindingContext)
         {
             base.BindFields(bindingContext);
+            BindOptions(bindingContext);
+        }
 
+        protected virtual void BindOptions(ModelBindingContext bindingContext)
+        {
             // Get Questions
             var questions = new List<QuestionOption>();
 
             for (var idx = 0; ; idx++)
             {
-                var textFieldName = string.Format("Questions[{0}].Text", idx);
+                var textFieldName = string.Format("QuestionOpts[{0}].Text", idx);
                 string optTxt;
                 if (!TryGetValue(bindingContext.ValueProvider, textFieldName, out optTxt))
                     break;
 
-                var valueFieldName = string.Format("Questions[{0}].Value", idx);
+                var valueFieldName = string.Format("QuestionOpts[{0}].Value", idx);
                 int optValue;
                 if (!TryGetValue(bindingContext.ValueProvider, valueFieldName, out optValue))
                     optValue = 0;
@@ -99,7 +102,7 @@ namespace SurveyTest.Models
                 questions.Add(new QuestionOption { Text = optTxt, Value = optValue, Order = idx });
             }
 
-            Questions = questions;
+            QuestionOpts = questions;
         }
     }
 }

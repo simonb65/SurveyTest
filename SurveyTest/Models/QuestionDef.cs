@@ -10,6 +10,15 @@ namespace SurveyTest.Models
         public string PromptText { get; set; }
         public string Description { get; set; }
 
+
+        public virtual string QuestionCode 
+        { 
+            get 
+            { 
+                var typeName = GetType().Name;
+                return typeName.Substring(0, typeName.Length - 11);    // QuestionDef has 11 char
+            }
+        }
         public abstract string FormatType { get; }
 
         public virtual string QuestionName { get { return "Q" + Id; } }
@@ -31,6 +40,9 @@ namespace SurveyTest.Models
             else
                 bindingContext.ModelState["Name"] = new ModelState { Errors = { "Name is mandatory" } };
 
+            if (TryGetValue(bindingContext.ValueProvider, "Description", out tmpStr) && !string.IsNullOrEmpty(tmpStr))
+                Description = tmpStr;
+
             if (TryGetValue(bindingContext.ValueProvider, "PromptText", out tmpStr) && !string.IsNullOrEmpty(tmpStr))
                 PromptText = tmpStr;
             else
@@ -46,7 +58,9 @@ namespace SurveyTest.Models
         {
         }
 
-        public abstract QuestionResult GetResult(IValueProvider provider);
+        public abstract string GetResult(IValueProvider provider);
+
+        public override int GetHashCode() { return Id; }
 
         // Utility Methods
         protected static bool TryGetValue(IValueProvider provider, string key, out int value)
