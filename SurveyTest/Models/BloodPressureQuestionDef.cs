@@ -9,8 +9,8 @@ namespace SurveyTest.Models
         public string DiaName { get { return QuestionName + "Dia"; } }
 
         public override string FormatType { get { return "BloodPressure"; } }
-        
-        public override string GetResult(IValueProvider provider)
+
+        public override QuestionResult GetResult(IValueProvider provider)
         {
             int sysPress;
             int diaPress;
@@ -23,8 +23,7 @@ namespace SurveyTest.Models
 
             var answer = sysPress + "/" + diaPress;
 
-            return answer;
+            return new QuestionResult { Answer = answer, Value = 0};
         }
     }
-
 }

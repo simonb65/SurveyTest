@@ -14,7 +14,7 @@
     }
     else 
     {
-        if (Model.Answer != null)
+        if (!string.IsNullOrEmpty(Model.Answer))
         {
             checkedAnswers = Model.Answer.Split(',').Select(x => int.Parse(x)).ToList();
         }

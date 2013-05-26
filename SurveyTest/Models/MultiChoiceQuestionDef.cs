@@ -31,13 +31,14 @@ namespace SurveyTest.Models
         protected string ResultPrefix { get { return QuestionName + "_R"; } }
         public string ResultName(int idx) { return ResultPrefix + idx.ToString("00"); }
 
-        public override string GetResult(IValueProvider provider)
+        public override QuestionResult GetResult(IValueProvider provider)
         {
             string value;
             if (TryGetValue(provider, GroupName, out value))
             {
                 var idx = int.Parse(value.Substring(ResultPrefix.Length));
-                return idx.ToString();
+
+                return new QuestionResult { Answer = idx.ToString(), Value = QuestionOpts[idx].Value };
             }
 
             return null;

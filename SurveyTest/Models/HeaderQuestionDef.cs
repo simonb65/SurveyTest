@@ -6,7 +6,7 @@ namespace SurveyTest.Models
     public class HeaderQuestionDef : QuestionDef
     {
         public override bool HasResult { get { return false; } }
-        public override string GetResult(IValueProvider provider) { return null; }
+        public override QuestionResult GetResult(IValueProvider provider) { return null; }
 
         public override string FormatType { get { return "Header"; } }
     }

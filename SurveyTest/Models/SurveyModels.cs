@@ -18,5 +18,10 @@ namespace SurveyTest.Models
     public class SurveyRunModel : SurveyModel
     {
         public IDictionary<SurveyQuestion, SurveyQuestionResult> Answers { get; set; }
+
+        public int Score()
+        {
+            return Answers.Sum(x => x.Value.Value);
+        }
     }
 }

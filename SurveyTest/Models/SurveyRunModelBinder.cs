@@ -16,11 +16,15 @@ namespace SurveyTest.Models
 
             foreach (var sq in survey.Questions.Where(q => q.Question.HasResult))
             {
-                var answer = sq.Question.GetResult(bindingContext.ValueProvider);
-                if ((answer == null) && (sq.Mandatory))
+                var result = sq.Question.GetResult(bindingContext.ValueProvider);
+                if ((result == null) && (sq.Mandatory))
                     bindingContext.ModelState[sq.Question.QuestionName] = CreateErrorModelState(sq.Question.QuestionName, "Missing");
 
-                survey.Answers[sq].Answer = answer;
+                if (result != null)
+                {
+                    survey.Answers[sq].Answer = result.Answer;
+                    survey.Answers[sq].Value = result.Value;
+                }
             }
 
             return survey;

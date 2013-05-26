@@ -10,7 +10,6 @@ namespace SurveyTest.Models
         public string PromptText { get; set; }
         public string Description { get; set; }
 
-
         public virtual string QuestionCode 
         { 
             get 
@@ -58,7 +57,7 @@ namespace SurveyTest.Models
         {
         }
 
-        public abstract string GetResult(IValueProvider provider);
+        public abstract QuestionResult GetResult(IValueProvider provider);
 
         public override int GetHashCode() { return Id; }
 

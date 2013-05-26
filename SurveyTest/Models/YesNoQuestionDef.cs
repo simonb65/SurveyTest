@@ -28,7 +28,7 @@ namespace SurveyTest.Models
             set { QuestionOpts[1].Value = value; }
         }
 
-        public override string GetResult(IValueProvider provider)
+        public override QuestionResult GetResult(IValueProvider provider)
         {
             string value;
             if (TryGetValue(provider, GroupName, out value))
@@ -36,7 +36,7 @@ namespace SurveyTest.Models
                 var idx = int.Parse(value.Substring(ResultPrefix.Length));
                 var answer = (idx == 0);
 
-                return answer.ToString();
+                return new QuestionResult { Answer = answer.ToString(), Value = answer ? YesOptionValue : NoOptionValue };
             }
 
             return null;

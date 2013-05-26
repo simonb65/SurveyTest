@@ -151,28 +151,31 @@ namespace SurveyTest.Repository
                 sr.survey_name = sm.Name;
                 sr.survey_desc = sm.Description;
 
-                foreach(var smq in sm.Questions)
+                if (sm.Questions != null)
                 {
-                    var sq = sr.SurveyQuestions.FirstOrDefault(x => x.survey_question_id == smq.Id);
-
-                    if (sq != null)
+                    foreach (var smq in sm.Questions)
                     {
-                        sq.mandatory = smq.Mandatory;
-                        sq.question_order = smq.Order;
-                    }
+                        var sq = sr.SurveyQuestions.FirstOrDefault(x => x.survey_question_id == smq.Id);
 
-                    else
-                    {
-                        var sqr = new survey_question
+                        if (sq != null)
                         {
-                            Survey = sr,
-                            question_def_id = smq.Question.Id,
-                            mandatory = smq.Mandatory,
-                            question_order = smq.Order
-                        };
+                            sq.mandatory = smq.Mandatory;
+                            sq.question_order = smq.Order;
+                        }
 
-                        db.survey_question.Add(sqr);
-                        sr.SurveyQuestions.Add(sqr);
+                        else
+                        {
+                            var sqr = new survey_question
+                            {
+                                Survey = sr,
+                                question_def_id = smq.Question.Id,
+                                mandatory = smq.Mandatory,
+                                question_order = smq.Order
+                            };
+
+                            db.survey_question.Add(sqr);
+                            sr.SurveyQuestions.Add(sqr);
+                        }
                     }
                 }
 

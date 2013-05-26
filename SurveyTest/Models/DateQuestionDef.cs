@@ -11,7 +11,7 @@ namespace SurveyTest.Models
 
         public override string FormatType { get { return "Date"; } }
 
-        public override string GetResult(IValueProvider provider)
+        public override QuestionResult GetResult(IValueProvider provider)
         {
             int dayVal;
             if (!TryGetValue(provider, DayName, out dayVal) || (dayVal == 0))
@@ -25,7 +25,9 @@ namespace SurveyTest.Models
             if (!TryGetValue(provider, YearName, out yearVal) || (yearVal == 0))
                 return null;
 
-            return new DateTime(yearVal, monthVal, dayVal).ToShortDateString();
+            var result = new DateTime(yearVal, monthVal, dayVal);
+
+            return new QuestionResult { Answer = result.ToShortDateString(), Value = 0 };
         }
     }
 }

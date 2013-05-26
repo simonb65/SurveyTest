@@ -46,7 +46,10 @@ namespace SurveyTest.Controllers
         [HttpGet]
         public ActionResult Thanks()
         {
-            var model = new SubmitSurveyModel { SurveySessKey = (string)TempData["SurveySessKey"] };
+            var surveySessKey = (string)TempData["SurveySessKey"];
+            var srm = (SurveyRunModel)Session[surveySessKey];
+
+            var model = new SubmitSurveyModel { SurveySessKey = surveySessKey, SurveyScore = srm.Score() };
 
             return View(model);
         }

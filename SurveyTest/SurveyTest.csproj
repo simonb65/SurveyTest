@@ -122,6 +122,7 @@
     <Compile Include="Models\MultiChoiceQuestionDef.cs" />
     <Compile Include="Models\MultiSelectQuestionDef.cs" />
     <Compile Include="Models\QuestionDefActivator.cs" />
+    <Compile Include="Models\QuestionResult.cs" />
     <Compile Include="Models\SurveyQuestionResult.cs" />
     <Compile Include="Models\SubmitSurveyModel.cs" />
     <Compile Include="Models\SurveyRunModelBinder.cs" />

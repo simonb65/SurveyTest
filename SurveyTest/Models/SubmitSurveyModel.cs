@@ -11,6 +11,8 @@ namespace SurveyTest.Models
     {
         public string SurveySessKey { get; set; }
 
+        public int SurveyScore { get; set; }
+
         [Required]
         [Display(Name = "Survey name")]
         public string Name { get; set; }

@@ -15,12 +15,13 @@ namespace SurveyTest.Models
 
         public string ResultName { get { return QuestionName + "R"; } }
 
-        public override string GetResult(IValueProvider provider)
+        public override QuestionResult GetResult(IValueProvider provider)
         {
-            string value;
-            return (TryGetValue(provider, ResultName, out value) && !string.IsNullOrEmpty(value))
-                ? value 
-                : null;
+            string answer;
+            if (!(TryGetValue(provider, ResultName, out answer) && !string.IsNullOrEmpty(answer)))
+                answer = null;
+
+            return new QuestionResult { Answer = answer, Value = 0 };
         }
 
         public override string SerialiseDetails()

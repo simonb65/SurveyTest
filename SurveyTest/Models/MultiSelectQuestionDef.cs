@@ -18,7 +18,7 @@ namespace SurveyTest.Models
                 && valResult.AttemptedValue.Contains("true"));
         }
 
-        public override string GetResult(IValueProvider provider)
+        public override QuestionResult GetResult(IValueProvider provider)
         {
             var results = new List<int>();
             var resultsValue = 0;
@@ -33,7 +33,7 @@ namespace SurveyTest.Models
 
             var answer = string.Join(",", results);
 
-            return (results.Count > 0) ? answer : null;
+            return new QuestionResult { Answer = answer, Value = resultsValue };
         }
     }
 }

@@ -5,12 +5,12 @@ namespace SurveyTest.Models
 {
     public class IntQuestionDef : TextQuestionDef
     {
-        public override string GetResult(IValueProvider provider)
+        public override QuestionResult GetResult(IValueProvider provider)
         {
-            int value;
-            return (TryGetValue(provider, ResultName, out value))
-                ? value.ToString()
-                : null;
+            int value = 0;
+            TryGetValue(provider, ResultName, out value);
+
+            return new QuestionResult { Answer = value.ToString(), Value = 0};
         }
     }
 }
